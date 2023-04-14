@@ -9,18 +9,18 @@ const Projects = () => {
       </h1>
 
       <div className='flex flex-wrap gap-8 justify-center py-4 overflow-auto'>
+        <Link href='https://enhanced-gpt.netlify.app/' target='_blank'>
+          <ProjectItem
+            name='Enhanced ChatGPT Clone'
+            category='test'
+            cover="bg-[url('/img/enhancedgptchat.png')]"
+          />
+        </Link>
         <Link href='https://kryptongoerli.netlify.app/' target='_blank'>
           <ProjectItem
             name='Krypt - (Crypto Goerli Testnet)'
             category='test'
             cover="bg-[url('/img/Web3-0.png')]"
-          />
-        </Link>
-        <Link href='https://youtu.be/ecVZBJZusk0' target='_blank'>
-          <ProjectItem
-            name='Srika Store'
-            category='test'
-            cover="bg-[url('/img/ecommerce/im1.png')]"
           />
         </Link>
         <Link href='https://indiancoffee.fr/' target='_blank'>
@@ -30,11 +30,11 @@ const Projects = () => {
             cover="bg-[url('/img/Indian-Coffe.png')]"
           />
         </Link>
-        <Link href='https://enhanced-gpt.netlify.app/' target='_blank'>
+        <Link href='https://youtu.be/ecVZBJZusk0' target='_blank'>
           <ProjectItem
-            name='Enhanced ChatGPT Clone'
+            name='Srika Store'
             category='test'
-            cover="bg-[url('/img/enhancedgptchat.png')]"
+            cover="bg-[url('/img/ecommerce/im1.png')]"
           />
         </Link>
         <Link

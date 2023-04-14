@@ -8,6 +8,7 @@ import { CgMenuGridO } from 'react-icons/cg';
 const Menu = () => {
   const { page, setPage, toggleMenu, setToggleMenu } = useGlobalContext();
   const navItemStyle = `hover:text-[#775e28] duration-500 ease-in-out cursor-pointer`;
+  const navItemSelectedStyle = `text-[#775e28]`;
   const socialIconStyle = `text-white w-[1.5rem] h-[1.5rem] hover:text-[#775e28]`;
   return (
     <>
@@ -43,78 +44,63 @@ const Menu = () => {
 
       <nav
         className={`absolute top-0 left-0 p-2 md:hidden ${
-          toggleMenu && 'bg-[#2f363d]'
+          toggleMenu && 'bg-[#212121]'
         } z-40 rounded-br-2xl`}
       >
-        <CgMenuGridO
-          className='text-white text-4xl cursor-pointer'
-          onClick={() => setToggleMenu((prev) => !prev)}
-        />
-        {toggleMenu && (
-          <div className='text-white text-xl w-full justify-evenly z-40 mt-4'>
-            <h3
-              className={`${navItemStyle} ${
-                page === 0 && 'text-[#775e28] pl-6 pt-2 pb-2'
-              }`}
-              onClick={() => {
-                setPage(0);
-                setToggleMenu(false);
-              }}
-            >
-              Home
-            </h3>
-            <h3
-              className={`${navItemStyle} ${
-                page === 1 && 'text-[#775e28] pl-6 pt-2 pb-2'
-              }`}
-              onClick={() => {
-                setPage(1);
-                setToggleMenu(false);
-              }}
-            >
-              Skills
-            </h3>
-            <h3
-              className={`${navItemStyle} ${
-                page === 2 && 'text-[#775e28] pl-6 pt-2 pb-2'
-              }`}
-              onClick={() => {
-                setPage(2);
-                setToggleMenu(false);
-              }}
-            >
-              Portfolio
-            </h3>
-            <h3
-              className={`${navItemStyle} ${
-                page === 3 && 'text-[#775e28] pl-6 pt-2 pb-2'
-              }`}
-              onClick={() => {
-                setPage(4);
-                setToggleMenu(false);
-              }}
-            >
-              Contact
-            </h3>
-            <div className='flex mt-4 gap-3'>
-              <Link
-                href='https://www.facebook.com/theo.samarasinghe/'
-                target='_blank'
+        <div className='flex justify-center items-center gap-4'>
+          <CgMenuGridO
+            className='text-white text-4xl cursor-pointer'
+            onClick={() => setToggleMenu((prev) => !prev)}
+          />
+          {toggleMenu && (
+            <div className='flex gap-4 mr-4 text-white text-lg z-40'>
+              <h3
+                className={`${navItemStyle} ${
+                  page === 0 && navItemSelectedStyle
+                }`}
+                onClick={() => {
+                  setPage(0);
+                  setToggleMenu(false);
+                }}
               >
-                <BsFacebook className={`${socialIconStyle}`} />
-              </Link>
-              <Link href='https://www.instagram.com/theo.sama/' target='_blank'>
-                <BsInstagram className={`${socialIconStyle}`} />
-              </Link>
-              <Link
-                href='https://www.linkedin.com/in/th%C3%A9o-samarasinghe/'
-                target='_blank'
+                Home
+              </h3>
+              <h3
+                className={`${navItemStyle} ${
+                  page === 1 && navItemSelectedStyle
+                }`}
+                onClick={() => {
+                  setPage(1);
+                  setToggleMenu(false);
+                }}
               >
-                <BsLinkedin className={`${socialIconStyle}`} />
-              </Link>
+                Skills
+              </h3>
+              <h3
+                className={`${navItemStyle} ${
+                  page === 2 && navItemSelectedStyle
+                }`}
+                onClick={() => {
+                  setPage(2);
+                  setToggleMenu(false);
+                }}
+              >
+                Portfolio
+              </h3>
+              <h3
+                className={`${navItemStyle} ${
+                  page === 3 && navItemSelectedStyle
+                }`}
+                onClick={() => {
+                  setPage(3);
+                  setToggleMenu(false);
+                }}
+              >
+                Contact
+              </h3>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </nav>
     </>
   );
