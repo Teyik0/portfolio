@@ -4,5 +4,6 @@ import Skills from './Skills';
 import Projects from './Projects';
 import ProjectItem from './ProjectItem';
 import Contact from './Contact';
+import Menu from './Menu';
 
-export { Presentation, Skills, Encadre, Projects, ProjectItem, Contact };
+export { Presentation, Skills, Encadre, Projects, ProjectItem, Contact, Menu };

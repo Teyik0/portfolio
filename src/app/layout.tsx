@@ -1,4 +1,6 @@
 import './globals.css';
+import { Encadre } from '@/components';
+import { GlobalContextProvider } from '@/context/store';
 
 export const metadata = {
   title: 'Theo - Portfolio 2023',
@@ -12,7 +14,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang='fr'>
-      <body className=''>{children}</body>
+      <body>
+        <GlobalContextProvider>
+          <Encadre />
+          {children}
+        </GlobalContextProvider>
+      </body>
     </html>
   );
 }

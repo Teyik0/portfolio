@@ -1,24 +1,16 @@
 'use client';
 
-import { useState } from 'react';
-import {
-  Contact,
-  Encadre,
-  Presentation,
-  Projects,
-  Skills,
-} from '../components';
+import { useGlobalContext } from '@/context/store';
+import { Presentation, Skills, Projects, Contact } from '../components';
 
 export default function Home() {
-  const [page, setPage] = useState(0);
-
+  const { page } = useGlobalContext();
   return (
-    <main>
-      <Encadre page={page} setPage={setPage} />
+    <main className='md:px-[12vh] md:pb-[12vh] md:h-[88vh] text-white overflow-hidden'>
       {page === 0 && <Presentation />}
       {page === 1 && <Skills />}
-      {page === 2 && <Projects />}
-      {page === 3 && <Contact />}
+      {/* {page === 2 && <Projects />} */}
+      {/* {page === 3 && <Contact />} */}
     </main>
   );
 }

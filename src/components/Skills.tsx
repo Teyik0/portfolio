@@ -1,20 +1,19 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useState } from 'react';
-import { devLogos, elecLogos, othersLogos, webLogos } from '../utils/utils';
-import Encadre from './Encadre';
+import { useState } from 'react';
+import { devLogos, elecLogos, othersLogos, webLogos } from '../context/utils';
 
 const Skills = () => {
   const [options, setOptions] = useState(0);
   const [selected, setSelected] = useState(webLogos);
   return (
-    <section
-      id='skill-section'
-      className='relative flex flex-col h-[100vh] justify-center'
-    >
-      <h1 className='lg:hidden uppercase text-center text-white text-5xl absolute top-8 w-full'>
+    <section className='flex flex-col h-[100vh] md:h-full justify-center items-center'>
+      <h1 className='md:hidden uppercase text-center text-white text-5xl absolute top-8 w-full'>
         Skills
       </h1>
+
       <ul
         className='absolute bottom-[3vh] text-white w-full flex flex-row flex-wrap justify-center 
       lg:text-[3vh]'
@@ -69,36 +68,34 @@ const Skills = () => {
         </li>
       </ul>
 
-      <div className='flex flex-col justify-center md:mt-6 lg:mt-12 lg:pl-[12vh] lg:pr-[12vh]'>
-        <div
-          className='flex flex-wrap gap-4 sm:gap-5 md:gap-[3vh] justify-center
+      <div
+        className='flex flex-wrap gap-4 sm:gap-5 md:gap-[3vh] justify-center
         md:w-full sm:w-[550px] w-full m-auto'
-        >
-          {selected.map((logo: any) => (
-            <div key={logo.name}>
-              <div
-                className='bg-[#343434] rounded-full flex justify-center items-center
+      >
+        {selected.map((logo: any) => (
+          <div key={logo.name}>
+            <div
+              className='bg-[#343434] rounded-full flex justify-center items-center
                 xl:w-[16vh] xl:h-[16vh] md:w-[12vh] md:h-[12vh] 
                 w-[70px] h-[70px]'
-              >
-                <div
-                  className='relative xl:w-[8vh] xl:h-[8vh] md:w-[6vh] md:h-[6vh] 
+            >
+              <div
+                className='relative xl:w-[8vh] xl:h-[8vh] md:w-[6vh] md:h-[6vh] 
                   w-[45px] h-[45px]'
-                >
-                  <Image
-                    alt={logo.name}
-                    src={logo.imgPath}
-                    layout='fill'
-                    className='object-contain w-full relative h-auto'
-                  />
-                </div>
+              >
+                <Image
+                  alt={logo.name}
+                  src={logo.imgPath}
+                  layout='fill'
+                  className='object-contain w-full relative h-auto'
+                />
               </div>
-              <p className='text-white text-[11px] md:text-base lg:text-[2vh] md:text-[1.5vh] text-center mt-2 xl:w-[16vh] md:w-[12vh] w-[70px]'>
-                {logo.name}
-              </p>
             </div>
-          ))}
-        </div>
+            <p className='text-white text-[11px] md:text-base lg:text-[2vh] md:text-[1.5vh] text-center mt-2 xl:w-[16vh] md:w-[12vh] w-[70px]'>
+              {logo.name}
+            </p>
+          </div>
+        ))}
       </div>
     </section>
   );
