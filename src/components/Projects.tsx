@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
-import Encadre from './Encadre';
+import { useState } from 'react';
 import ProjectItem from './ProjectItem';
 
 const Projects = () => {
