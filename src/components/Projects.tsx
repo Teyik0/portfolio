@@ -5,21 +5,22 @@ import ProjectItem from './ProjectItem';
 
 const Projects = () => {
   const [options, setOptions] = useState(0);
+  const bulletStyle = 'h-6 w-6 bg-[#343434] rounded-full ml-8 cursor-pointer';
   return (
-    <section className='relative flex flex-col h-[100vh] justify-center'>
-      <h1 className='lg:hidden uppercase text-center text-white text-5xl absolute top-8 w-full'>
+    <section className='flex flex-col h-[100vh] md:h-full justify-center items-center'>
+      <h1 className='md:hidden uppercase text-center text-white text-5xl absolute top-8 w-full'>
         Projects
       </h1>
       <ul
         className='absolute bottom-[1vh] text-white w-full flex flex-row flex-wrap justify-center 
-      lg:text-[3vh]'
+        lg:text-[3vh]'
       >
         <li className='flex items-center mb-4 lg:mb-0 mr-4 ml-4'>
           Web
           <div
-            className={`h-6 w-6 ${
+            className={`${bulletStyle} ${
               options === 0 ? 'bg-[#c7e4f8]' : 'bg-[#343434]'
-            } rounded-full ml-8 cursor-pointer`}
+            } `}
             onClick={() => {
               setOptions(0);
             }}
@@ -28,9 +29,9 @@ const Projects = () => {
         <li className='flex items-center mb-4 lg:mb-0 mr-4 ml-4'>
           Electronics
           <div
-            className={`h-6 w-6 ${
+            className={`${bulletStyle} ${
               options === 1 ? 'bg-[#c7e4f8]' : 'bg-[#343434]'
-            } rounded-full ml-8 cursor-pointer`}
+            } `}
             onClick={() => {
               setOptions(1);
             }}
@@ -39,16 +40,17 @@ const Projects = () => {
         <li className='flex items-center mb-4 lg:mb-0 mr-4 ml-4'>
           Others
           <div
-            className={`h-6 w-6 ${
+            className={`${bulletStyle} ${
               options === 2 ? 'bg-[#c7e4f8]' : 'bg-[#343434]'
-            } rounded-full ml-8 cursor-pointer`}
+            }`}
             onClick={() => {
               setOptions(2);
             }}
           />
         </li>
       </ul>
-      <div className='lg:p-[12vh] flex flex-wrap gap-8 justify-center'>
+
+      <div className='md:p-[12vh] flex flex-wrap gap-8 justify-center'>
         {options === 0 && (
           <>
             <ProjectItem
