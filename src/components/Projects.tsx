@@ -2,14 +2,13 @@ import ProjectItem from './ProjectItem';
 import Link from 'next/link';
 
 const Projects = () => {
-  const bulletStyle = 'h-6 w-6 bg-[#343434] rounded-full ml-8 cursor-pointer';
   return (
     <section className='flex flex-col h-[100vh] md:h-full md:justify-center md:items-center'>
       <h1 className='md:hidden uppercase text-center text-white text-5xl pt-2'>
         Projects
       </h1>
 
-      <div className='flex flex-wrap gap-8 justify-center py-4 overflow-auto mt-2'>
+      <div className='flex flex-wrap gap-8 justify-center py-4 overflow-auto'>
         <Link href='https://kryptongoerli.netlify.app/' target='_blank'>
           <ProjectItem
             name='Krypt - (Crypto Goerli Testnet)'
@@ -38,6 +37,16 @@ const Projects = () => {
             cover="bg-[url('/img/enhancedgptchat.png')]"
           />
         </Link>
+        <Link
+          href='https://youtube.com/shorts/e7I4HjtPEDA?feature=share'
+          target='_blank'
+        >
+          <ProjectItem
+            name='Epitact App - React Native'
+            category='test'
+            cover="bg-[url('/img/Epitact.jpg')]"
+          />
+        </Link>
         <ProjectItem
           name='Robot Suiveur'
           category='test'
@@ -53,16 +62,6 @@ const Projects = () => {
           category='test'
           cover="bg-[url('/img/listx/listx.png')]"
         />
-        <Link
-          href='https://youtube.com/shorts/e7I4HjtPEDA?feature=share'
-          target='_blank'
-        >
-          <ProjectItem
-            name='Epitact App - React Native'
-            category='test'
-            cover="bg-[url('/img/Epitact.jpg')]"
-          />
-        </Link>
       </div>
     </section>
   );
