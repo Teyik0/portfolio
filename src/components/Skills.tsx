@@ -14,7 +14,7 @@ const Skills = () => {
         Skills
       </h1>
 
-      <ul
+      {/* <ul
         className='absolute bottom-[3vh] text-white w-full flex flex-row flex-wrap justify-center 
       lg:text-[3vh]'
       >
@@ -66,11 +66,11 @@ const Skills = () => {
             }}
           />
         </li>
-      </ul>
+      </ul> */}
 
       <div
         className='flex flex-wrap gap-4 sm:gap-5 md:gap-[3vh] justify-center
-        md:w-full sm:w-[550px] w-full m-auto'
+        md:w-full sm:w-[550px] w-full m-auto overflow-auto py-2'
       >
         {selected.map((logo: any) => (
           <div key={logo.name}>

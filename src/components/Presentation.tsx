@@ -13,7 +13,7 @@ const Presentation = () => {
 
       <div
         className='text-center lg:mt-0 lg:text-left
-        md:w-[600px]'
+        lg:w-[600px]'
       >
         <h1 className='text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl text-white'>
           <span className='font-bold'>Théo</span> Samarasinghe
