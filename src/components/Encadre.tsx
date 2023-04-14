@@ -84,20 +84,10 @@ const Encadre = ({ page, setPage }: any) => {
           Portfolio
         </h3>
         <h3
-          className={`hover:text-[#775e28] duration-500 cursor-pointer mr-4
+          className={`hover:text-[#775e28] duration-500 cursor-pointer 
           ${page === 3 && 'text-[#775e28]'}`}
           onClick={() => {
             setPage(3);
-            setMenu(false);
-          }}
-        >
-          Experiences
-        </h3>
-        <h3
-          className={`hover:text-[#775e28] duration-500 cursor-pointer 
-          ${page === 4 && 'text-[#775e28]'}`}
-          onClick={() => {
-            setPage(4);
             setMenu(false);
           }}
         >
