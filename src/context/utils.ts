@@ -187,36 +187,3 @@ export const allLogos = [
   Zustand,
 ];
 
-export const webLogos = [
-  Github,
-  Git,
-  HTML,
-  CSS,
-  Sass,
-  Javascript,
-  Typescript,
-  Solidity,
-  React,
-  NextJS,
-  StyledComponent,
-  TailwindCSS,
-  Sanity,
-  Zustand,
-  Wordpress,
-];
-
-export const devLogos = [
-  Git,
-  Github,
-  Javascript,
-  Typescript,
-  Solidity,
-  React,
-  Qt,
-  Arduino,
-  Cplusplus,
-];
-
-export const elecLogos = [Arduino, Cplusplus, Cura, Solidworks];
-
-export const othersLogos = [PremierePro, Excel, Word];
