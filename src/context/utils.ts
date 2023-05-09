@@ -21,6 +21,9 @@ import cura from '../../public/logo/logo-cura.png';
 import qt from '../../public/logo/logo-qt.svg';
 import solidity from '../../public/logo/logo-solidity.svg';
 import zustand from '../../public/logo/logo-zustand.png';
+import mongodb from '../../public/logo/logo-mongodb.svg'
+import prisma from '../../public/logo/logo-prisma.svg';
+import expressjs from '../../public/logo/logo-expressjs.svg';
 
 const Arduino = {
   name: 'Arduino',
@@ -161,6 +164,24 @@ const Zustand = {
   mastery: 'advanced',
 };
 
+const Mongodb = {
+  name: 'Mongodb',
+  imgPath: mongodb,
+  mastery: 'advanced'
+}
+
+const Prisma = {
+  name: 'Prisma',
+  imgPath: prisma,
+  mastery: 'advanced'
+}
+
+const ExpressJS = {
+  name: 'ExpressJS',
+  imgPath: expressjs,
+  mastery: 'advanced'
+}
+
 export const allLogos = [
   Arduino,
   Cplusplus,
@@ -185,5 +206,8 @@ export const allLogos = [
   Qt,
   Solidity,
   Zustand,
+  Mongodb,
+  Prisma,
+  ExpressJS
 ];
 
