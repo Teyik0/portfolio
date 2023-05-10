@@ -1,7 +1,7 @@
 import ProjectItem from "./ProjectItem";
 
 const enhancedchatgptclone = {
-  project: "https://enhanced-gpt.netlify.app/",
+  project: "https://enhanced-chat-gpt-clone.vercel.app/",
   github: "https://github.com/Teyik0/Enhanced-ChatGPT-Clone",
   youtube:
     "https://www.youtube.com/watch?v=logTaDXg-p4&ab_channel=Th%C3%A9oSamarasinghe",
