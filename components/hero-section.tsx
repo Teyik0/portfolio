@@ -2,7 +2,8 @@ import Avatar from "@/components/avatar";
 import { MainSkills } from "@/components/main-skills";
 import RadialGradient from "@/components/ui/radial-gradient";
 import { Vortex } from "@/components/ui/vortex";
-
+import { ProjectCarousel } from "./project-carousel";
+import { QuickStats } from "./stats";
 export const HeroSection = () => {
 	return (
 		<section className="relative max-h-screen h-screen overflow-hidden flex flex-col justify-center">
@@ -43,8 +44,11 @@ export const HeroSection = () => {
 						</div>
 					</div>
 
-					{/* Main Skills Section */}
-					<MainSkills />
+					<div className="flex justify-around mt-16 items-center">
+						<ProjectCarousel />
+						<MainSkills />
+						<QuickStats />
+					</div>
 				</div>
 			</Vortex>
 			<RadialGradient size={700} />

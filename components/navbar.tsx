@@ -1,7 +1,9 @@
 "use client";
 
+import { GitHubSvg } from "@/lib/icons/github";
 import { smoothScrollTo } from "@/lib/smooth-scroll";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 export const sections = ["home", "projects", "contact"] as const;
@@ -103,6 +105,23 @@ export function Navbar() {
 							setActiveSection={setActiveSection}
 						/>
 					))}
+					<Link
+						href="https://github.com/Teyik0"
+						className="relative ml-6"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						<GitHubSvg className="size-8" />
+						<motion.div
+							className="absolute inset-0 rounded-full"
+							whileHover={{
+								borderColor: "rgba(255, 255, 255, 0.3)",
+								scale: 1.5,
+								boxShadow: "0 0 15px rgba(255, 255, 255, 0.2)",
+								transition: { duration: 0.2 },
+							}}
+						/>
+					</Link>
 				</nav>
 
 				<button

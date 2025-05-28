@@ -86,17 +86,14 @@ const allSkills = [
 
 export const MainSkills = () => {
 	return (
-		<div className="mt-16 relative flex justify-center">
+		<div className="relative">
 			<motion.div
 				initial={{ opacity: 0, y: 20 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 0.6, delay: 0.3 }}
 				className="relative"
 			>
-				<div
-					className="relative p-6 grid grid-cols-2 gap-16 max-w-xs border border-white/20 bg-white/5 backdrop-blur-md rounded-3xl
-				            shadow-[0_0_15px_rgba(255,255,255,0.1)] overflow-hidden"
-				>
+				<div className="relative p-6 grid grid-cols-2 gap-16 max-w-xs border border-white/20 bg-white/5 backdrop-blur-md rounded-3xl overflow-hidden">
 					<div
 						className="absolute left-1/2 top-4 bottom-4 w-px -translate-x-1/2 pointer-events-none
 					                bg-[linear-gradient(to_bottom,transparent,rgba(255,255,255,0.20)_40%,rgba(255,255,255,0.20)_60%,transparent)]"
@@ -163,7 +160,7 @@ export const MainSkills = () => {
 								className="text-white group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]"
 							>
 								{React.cloneElement(skill.icon, {
-									className: "h-12 w-12",
+									className: "xl:size-16 size-16",
 								})}
 							</motion.div>
 						</motion.div>
