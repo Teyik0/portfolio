@@ -5,10 +5,7 @@ import { Vortex } from "@/components/ui/vortex";
 
 export const HeroSection = () => {
 	return (
-		<section
-			className="relative max-h-screen h-screen overflow-hidden flex flex-col justify-center"
-			id="home"
-		>
+		<section className="relative max-h-screen h-screen overflow-hidden flex flex-col justify-center">
 			<Vortex
 				backgroundColor="black"
 				rangeY={100}
@@ -16,12 +13,12 @@ export const HeroSection = () => {
 				baseHue={80}
 				className="flex flex-col justify-center items-center"
 			>
-				<div className="container mx-auto px-4 mt-24">
+				<div className="container mx-auto px-4 mt-16">
 					{/* Side by side layout for avatar and text */}
 					<div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
 						<Avatar />
 
-						<div className="text-center md:text-left max-w-xl font-mono">
+						<div className="text-center md:text-left max-w-xl">
 							<h1 className="text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl text-white font-bold">
 								Hi, I'm Théo
 							</h1>

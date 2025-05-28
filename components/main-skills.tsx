@@ -19,13 +19,13 @@ const mainSkills = [
 		icon: <BunSvg />,
 	},
 	{
+		icon: <PrismaSvg />,
+	},
+	{
 		icon: <TypeScriptSvg />,
 	},
 	{
 		icon: <NextjsSvg />,
-	},
-	{
-		icon: <PrismaSvg />,
 	},
 ] satisfies { icon: ReactElement<SVGProps<SVGSVGElement>> }[];
 
@@ -94,29 +94,35 @@ export const MainSkills = () => {
 				className="relative"
 			>
 				<div
-					className="relative p-6 grid grid-cols-2 gap-12 max-w-xs border border-white/20 bg-white/5 backdrop-blur-md rounded-3xl
+					className="relative p-6 grid grid-cols-2 gap-16 max-w-xs border border-white/20 bg-white/5 backdrop-blur-md rounded-3xl
 				            shadow-[0_0_15px_rgba(255,255,255,0.1)] overflow-hidden"
 				>
+					<div
+						className="absolute left-1/2 top-4 bottom-4 w-px -translate-x-1/2 pointer-events-none
+					                bg-[linear-gradient(to_bottom,transparent,rgba(255,255,255,0.20)_40%,rgba(255,255,255,0.20)_60%,transparent)]"
+					/>
+					<div
+						className="absolute left-1/2 top-1/2 w-[calc(100%-2rem)] h-px -translate-x-1/2 -translate-y-1/2 pointer-events-none
+					                bg-[linear-gradient(to_right,transparent,rgba(255,255,255,0.20)_40%,rgba(255,255,255,0.20)_60%,transparent)]"
+					/>
+
 					{/* Subtle gradient border effect */}
 					<div className="absolute inset-0 rounded-2xl p-[1px] pointer-events-none">
-						<div className="absolute inset-[-1px] rounded-2xl bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-purple-500/20 animate-gradient-x" />
+						<div className="absolute inset-[-1px] rounded-2xl bg-gradient-to-r from-purple-500/5 via-blue-500/5 to-purple-500/5 animate-gradient-x" />
 					</div>
 
-					{/* See All Skills Button - Centered */}
 					<Dialog>
 						<DialogTrigger asChild>
-							<motion.button
-								initial={{ opacity: 0, scale: 0.9 }}
-								animate={{ opacity: 1, scale: 1 }}
-								transition={{ duration: 0.5, delay: 0.3 }}
-								className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-xs flex justify-center items-center z-10 bg-white/10
-								           hover:bg-white/20 backdrop-blur-md text-white px-6 py-2.5 rounded-full border border-white/20 transition-all duration-300
-													 shadow-lg hover:shadow-white/5"
-								whileHover={{ scale: 1.05 }}
-								whileTap={{ scale: 0.98 }}
+							<button
+								type="button"
+								className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-xs flex justify-center items-center z-10
+  													bg-gradient-to-r from-neutral-900/90 via-neutral-700/90 to-neutral-900/90
+  													hover:from-neutral-800/80 hover:via-neutral-600/70 hover:to-neutral-800/80
+  													backdrop-blur-md text-white px-3 py-1.5 rounded-full border border-white/20 transition-all duration-300
+  													shadow-lg hover:shadow-white/5 w-max"
 							>
-								See All Skills
-							</motion.button>
+								{">"} Tech Stacks
+							</button>
 						</DialogTrigger>
 						<DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
 							<DialogHeader>
@@ -157,7 +163,7 @@ export const MainSkills = () => {
 								className="text-white group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]"
 							>
 								{React.cloneElement(skill.icon, {
-									className: "h-16 w-16",
+									className: "h-12 w-12",
 								})}
 							</motion.div>
 						</motion.div>
