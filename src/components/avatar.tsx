@@ -17,7 +17,7 @@ export const Avatar = () => {
 		>
 			<div className="avatar w-64">
 				<Image
-					src="/me-ghibli-cyber.png"
+					src="/ghibli.webp"
 					alt="profile-photo"
 					width={10}
 					height={10}

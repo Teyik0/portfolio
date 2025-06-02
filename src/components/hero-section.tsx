@@ -14,7 +14,7 @@ export const HeroSection = () => {
 				baseHue={80}
 				className="flex flex-col justify-center items-center"
 			>
-				<div className="container mx-auto px-4 mt-16">
+				<div className="container mx-auto px-4">
 					{/* Side by side layout for avatar and text */}
 					<div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
 						<Avatar />
