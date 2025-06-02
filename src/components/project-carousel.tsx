@@ -1,64 +1,45 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, ExternalLink, Github } from "lucide-react";
+import { ChevronLeft, ChevronRight, ExternalLink, Github } from "lucide-react"; // Added Layers icon
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 type Project = {
 	title: string;
-	description: string;
+	shortDesc: string;
 	githubUrl?: string;
 	liveUrl?: string;
 	tags: string[];
-	image?: string;
 };
 
 const projects: Project[] = [
 	{
-		title: "DeFi Dashboard",
-		description:
-			"Blockchain analytics platform with real-time data visualization",
-		githubUrl: "https://github.com/yourusername/defi-dashboard",
-		liveUrl: "https://defi-dashboard.example.com",
-		tags: ["React", "Web3", "Ethers.js"],
-		image: "/placeholder.svg?height=120&width=200&query=blockchain%20dashboard",
+		title: "DeFi Analytics",
+		shortDesc: "Real-time blockchain data viz.",
+		githubUrl: "#",
+		liveUrl: "#",
+		tags: ["React", "Web3"],
 	},
 	{
-		title: "AI Code Assistant",
-		description: "Developer tool that uses AI to suggest code improvements",
-		githubUrl: "https://github.com/yourusername/ai-code-assistant",
-		tags: ["Python", "TensorFlow", "NLP"],
-		image: "/placeholder.svg?height=120&width=200&query=ai%20code%20assistant",
+		title: "AI Code Assist",
+		shortDesc: "AI-powered code suggestions.",
+		githubUrl: "#",
+		tags: ["Python", "AI"],
 	},
 	{
-		title: "NFT Marketplace",
-		description: "Platform for creating and trading digital collectibles",
-		liveUrl: "https://nft-marketplace.example.com",
-		tags: ["Next.js", "Solidity", "IPFS"],
-		image: "/placeholder.svg?height=120&width=200&query=nft%20marketplace",
+		title: "NFT Platform",
+		shortDesc: "Digital collectible marketplace.",
+		liveUrl: "#",
+		tags: ["Next.js", "Solidity"],
 	},
 ];
 
 export const ProjectCarousel = () => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [direction, setDirection] = useState(0);
-	const [isAnimating, setIsAnimating] = useState(false);
-
-	// Auto-advance carousel
-	useEffect(() => {
-		const interval = setInterval(() => {
-			if (!isAnimating) {
-				setDirection(1);
-				setCurrentIndex((prevIndex) => (prevIndex + 1) % projects.length);
-			}
-		}, 5000);
-
-		return () => clearInterval(interval);
-	}, [isAnimating]);
 
 	const handlePrevious = () => {
-		if (isAnimating) return;
 		setDirection(-1);
 		setCurrentIndex(
 			(prevIndex) => (prevIndex - 1 + projects.length) % projects.length,
@@ -66,211 +47,136 @@ export const ProjectCarousel = () => {
 	};
 
 	const handleNext = () => {
-		if (isAnimating) return;
 		setDirection(1);
 		setCurrentIndex((prevIndex) => (prevIndex + 1) % projects.length);
 	};
 
 	const variants = {
 		enter: (direction: number) => ({
-			x: direction > 0 ? 200 : -200,
+			x: direction > 0 ? 100 : -100,
 			opacity: 0,
+			scale: 0.95,
 		}),
 		center: {
 			x: 0,
 			opacity: 1,
+			scale: 1,
 		},
 		exit: (direction: number) => ({
-			x: direction < 0 ? 200 : -200,
+			x: direction < 0 ? 100 : -100,
 			opacity: 0,
+			scale: 0.95,
 		}),
 	};
 
 	const currentProject = projects[currentIndex];
 
+	// Auto-advance (optional, can be distracting in a busy UI)
+	// useEffect(() => {
+	//   const timer = setTimeout(() => handleNext(), 5000);
+	//   return () => clearTimeout(timer);
+	// }, [currentIndex]);
+
 	return (
-		<motion.div
-			initial={{ opacity: 0, y: 20 }}
-			animate={{ opacity: 1, y: 0 }}
-			transition={{ duration: 0.6, delay: 0.3 }}
-		>
-			<div className="relative p-5 w-[300px] h-[300px] border border-white/20 bg-white/5 backdrop-blur-md rounded-3xl">
-				{/* Header */}
-				<div className="text-center mb-4">
-					<h3 className="text-sm font-medium text-white/90">Projects</h3>
-					<span className="text-[8px] text-white/50 font-mono">
-						0x3a8c...2e9d7
-					</span>
-				</div>
-
-				{/* Carousel */}
-				<div className="relative h-[130px] overflow-hidden">
-					<AnimatePresence
-						initial={false}
+		<div className="h-full flex flex-col justify-between">
+			<div className="relative flex-grow overflow-hidden mt-1">
+				<AnimatePresence initial={false} custom={direction} mode="wait">
+					<motion.div
+						key={currentIndex}
 						custom={direction}
-						mode="wait"
-						onExitComplete={() => setIsAnimating(false)}
+						variants={variants}
+						initial="enter"
+						animate="center"
+						exit="exit"
+						transition={{
+							type: "spring",
+							stiffness: 200,
+							damping: 25,
+							duration: 0.3,
+						}}
+						className="absolute w-full h-full flex flex-col items-center justify-center"
 					>
-						<motion.div
-							key={currentIndex}
-							custom={direction}
-							variants={variants}
-							initial="enter"
-							animate="center"
-							exit="exit"
-							transition={{
-								x: { type: "spring", stiffness: 300, damping: 30 },
-								opacity: { duration: 0.2 },
-							}}
-							onAnimationStart={() => setIsAnimating(true)}
-							onAnimationComplete={() => setIsAnimating(false)}
-							className="absolute w-full"
-						>
-							<div className="p-3 rounded-xl bg-white/5 border border-white/10">
-								<div className="flex justify-between items-start">
-									<h4 className="text-sm font-semibold text-white/90">
-										{currentProject.title}
-									</h4>
-									<div className="flex gap-2">
-										{currentProject.githubUrl && (
-											<Link
-												href={currentProject.githubUrl}
-												target="_blank"
-												rel="noopener noreferrer"
-											>
-												<Github
-													size={16}
-													className="text-white/60 hover:text-white transition-colors"
-												/>
-											</Link>
-										)}
-										{currentProject.liveUrl && (
-											<Link
-												href={currentProject.liveUrl}
-												target="_blank"
-												rel="noopener noreferrer"
-											>
-												<ExternalLink
-													size={16}
-													className="text-white/60 hover:text-white transition-colors"
-												/>
-											</Link>
-										)}
-									</div>
-								</div>
-								<p className="text-xs text-white/70 mt-1">
-									{currentProject.description}
-								</p>
-								<div className="flex flex-wrap gap-1 mt-2">
-									{currentProject.tags.map((tag) => (
-										<span
-											key={tag}
-											className="text-[10px] px-1.5 py-0.5 rounded-full bg-white/10 text-white/70"
-										>
-											{tag}
-										</span>
-									))}
-								</div>
+						<div className="p-2 w-full">
+							<h4 className="text-xs font-semibold text-slate-100 truncate text-center">
+								{currentProject.title}
+							</h4>
+							<p className="text-[10px] text-slate-400 mt-0.5 leading-snug text-center h-6 overflow-hidden">
+								{currentProject.shortDesc}
+							</p>
+							<div className="flex flex-wrap gap-1 mt-1.5 justify-center">
+								{currentProject.tags.map((tag) => (
+									<span
+										key={tag}
+										className="text-[8px] px-1 py-0.5 rounded-sm bg-slate-700 text-slate-300"
+									>
+										{tag}
+									</span>
+								))}
 							</div>
-						</motion.div>
-					</AnimatePresence>
-				</div>
+							<div className="flex justify-center gap-3 mt-2">
+								{currentProject.githubUrl && (
+									<Link
+										href={currentProject.githubUrl}
+										target="_blank"
+										rel="noopener noreferrer"
+										className="text-slate-400 hover:text-sky-400 transition-colors"
+									>
+										<Github size={12} />
+									</Link>
+								)}
+								{currentProject.liveUrl && (
+									<Link
+										href={currentProject.liveUrl}
+										target="_blank"
+										rel="noopener noreferrer"
+										className="text-slate-400 hover:text-sky-400 transition-colors"
+									>
+										<ExternalLink size={12} />
+									</Link>
+								)}
+							</div>
+						</div>
+					</motion.div>
+				</AnimatePresence>
+			</div>
 
-				{/* Navigation Arrows */}
+			{/* Navigation */}
+			<div className="flex items-center justify-between px-1 pt-1">
 				<button
 					type="button"
 					onClick={handlePrevious}
-					className="absolute left-0 translate-x-4 p-1 rounded-full bg-black/30 text-white/70 hover:text-white
-					           hover:bg-black/50 transition-all z-50"
+					className="p-1 rounded-full text-slate-400 hover:text-white hover:bg-slate-700/50 transition-all"
 					aria-label="Previous project"
 				>
-					<ChevronLeft size={20} />
+					<ChevronLeft size={16} />
 				</button>
-				<button
-					type="button"
-					onClick={handleNext}
-					className="absolute right-0 -translate-x-4 p-1 rounded-full bg-black/30 text-white/70 hover:text-white
-					           hover:bg-black/50 transition-all z-50"
-					aria-label="Next project"
-				>
-					<ChevronRight size={20} />
-				</button>
-
-				{/* Carousel Indicators */}
-				<div className="flex justify-center gap-1 mt-3">
+				<div className="flex gap-1">
 					{projects.map((project, index) => (
 						<button
 							type="button"
 							key={project.title}
 							onClick={() => {
-								if (isAnimating) return;
 								setDirection(index > currentIndex ? 1 : -1);
 								setCurrentIndex(index);
 							}}
-							className={`w-2 h-2 rounded-full transition-all ${
-								index === currentIndex ? "bg-white/80 w-4" : "bg-white/30"
+							className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+								index === currentIndex
+									? "bg-sky-500 scale-125"
+									: "bg-slate-600 hover:bg-slate-500"
 							}`}
 							aria-label={`Go to project ${index + 1}`}
 						/>
 					))}
 				</div>
-
-				{/* Contact links at bottom */}
-				<div className="mt-4 pt-3 border-t border-white/10 flex justify-center gap-4">
-					<Link
-						href="https://github.com/yourusername"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						<div className="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-all duration-300 text-white">
-							<Github size={18} />
-						</div>
-					</Link>
-					<Link href="mailto:your.email@example.com">
-						<div className="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-all duration-300 text-white">
-							<motion.svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="18"
-								height="18"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								strokeWidth="2"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-							>
-								<title>Email Logo</title>
-								<rect width="20" height="16" x="2" y="4" rx="2" />
-								<path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-							</motion.svg>
-						</div>
-					</Link>
-					<Link
-						href="https://linkedin.com/in/yourusername"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						<div className="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-all duration-300 text-white">
-							<motion.svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="18"
-								height="18"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								strokeWidth="2"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-							>
-								<title>Linkedin Logo</title>
-								<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-								<rect width="4" height="12" x="2" y="9" />
-								<circle cx="4" cy="4" r="2" />
-							</motion.svg>
-						</div>
-					</Link>
-				</div>
+				<button
+					type="button"
+					onClick={handleNext}
+					className="p-1 rounded-full text-slate-400 hover:text-white hover:bg-slate-700/50 transition-all"
+					aria-label="Next project"
+				>
+					<ChevronRight size={16} />
+				</button>
 			</div>
-		</motion.div>
+		</div>
 	);
 };

@@ -1,10 +1,137 @@
+"use client";
+
 import { Avatar } from "@/components/avatar";
 import { MainSkills } from "@/components/main-skills";
 import RadialGradient from "@/components/ui/radial-gradient";
 import { Vortex } from "@/components/ui/vortex";
 import { ProjectCarousel } from "./project-carousel";
 import { QuickStats } from "./stats";
+
+import type React from "react";
+
+import { useMediaQuery } from "@/hooks/use-media-query"; // This import should now work
+import { BarChart2, Layers } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { BlockchainConnector } from "./blockchain-connector";
+import { BlockchainNode } from "./blockchain-node";
+
 export const HeroSection = () => {
+	const isMediumScreen = useMediaQuery("(min-width: 768px)");
+	const containerRef = useRef<HTMLDivElement>(null);
+	const nodeRefs = {
+		projects: useRef<HTMLDivElement>(null),
+		tech: useRef<HTMLDivElement>(null),
+		stats: useRef<HTMLDivElement>(null),
+	};
+	const [connectorPaths, setConnectorPaths] = useState<any[]>([]);
+
+	useEffect(() => {
+		if (!isMediumScreen || !containerRef.current) {
+			setConnectorPaths([]);
+			return;
+		}
+
+		const getPortPosition = (
+			nodeRef: React.RefObject<HTMLDivElement>,
+			side: "top" | "right" | "bottom" | "left",
+		) => {
+			if (!nodeRef.current || !containerRef.current) return { x: 0, y: 0 };
+			const nodeRect = nodeRef.current.getBoundingClientRect();
+			const containerRect = containerRef.current.getBoundingClientRect();
+			// Port visual size is 6px, offset by 3px from edge
+			const portOffset = 3; // This is the visual offset of the port indicator from the node's edge
+
+			// Calculate center of the node relative to the container
+			const nodeCenterX =
+				nodeRect.left - containerRect.left + nodeRect.width / 2;
+			const nodeCenterY =
+				nodeRect.top - containerRect.top + nodeRect.height / 2;
+
+			// Calculate edge positions relative to the container
+			const nodeTop = nodeRect.top - containerRect.top;
+			const nodeRight = nodeRect.right - containerRect.left;
+			const nodeBottom = nodeRect.bottom - containerRect.top;
+			const nodeLeft = nodeRect.left - containerRect.left;
+
+			switch (side) {
+				case "top":
+					return {
+						x: nodeCenterX,
+						y: nodeTop - portOffset,
+					};
+				case "right":
+					return {
+						x: nodeRight + portOffset,
+						y: nodeCenterY,
+					};
+				case "bottom":
+					return {
+						x: nodeCenterX,
+						y: nodeBottom + portOffset,
+					};
+				case "left":
+					return {
+						x: nodeLeft - portOffset,
+						y: nodeCenterY,
+					};
+				default:
+					return { x: 0, y: 0 };
+			}
+		};
+
+		const calculatePaths = () => {
+			const p = nodeRefs.projects.current;
+			const t = nodeRefs.tech.current;
+			const s = nodeRefs.stats.current;
+
+			if (p && t && s && containerRef.current) {
+				const projRight = getPortPosition(nodeRefs.projects!, "right");
+				const techLeft = getPortPosition(nodeRefs.tech!, "left");
+				const techRight = getPortPosition(nodeRefs.tech!, "right");
+				const statsLeft = getPortPosition(nodeRefs.stats!, "left");
+
+				// A slightly curved path example
+				const projToTechPath = `M ${projRight.x} ${projRight.y} C ${projRight.x + 40} ${projRight.y}, ${techLeft.x - 40} ${techLeft.y}, ${techLeft.x} ${techLeft.y}`;
+				const techToStatsPath = `M ${techRight.x} ${techRight.y} C ${techRight.x + 40} ${techRight.y}, ${statsLeft.x - 40} ${statsLeft.y}, ${statsLeft.x} ${statsLeft.y}`;
+
+				setConnectorPaths([
+					{
+						id: "p-t",
+						path: projToTechPath,
+						color: "stroke-sky-500",
+						animated: true,
+						showArrow: true,
+						thickness: 1.5,
+					},
+					{
+						id: "t-s",
+						path: techToStatsPath,
+						color: "stroke-emerald-500",
+						animated: true,
+						showArrow: true,
+						thickness: 1.5,
+					},
+				]);
+			}
+		};
+
+		const debouncedCalculatePaths = () => {
+			requestAnimationFrame(calculatePaths);
+		};
+
+		debouncedCalculatePaths();
+		window.addEventListener("resize", debouncedCalculatePaths);
+
+		// Optional: Observe nodes for attribute changes if their size might change dynamically
+		// For simplicity, this is omitted here but can be added if nodes resize due to content changes
+
+		return () => {
+			window.removeEventListener("resize", debouncedCalculatePaths);
+		};
+	}, [isMediumScreen, nodeRefs.projects, nodeRefs.tech, nodeRefs.stats]); // Added all nodeRefs to dependency array
+
+	const nodeCommonClass = "w-full max-w-[280px] md:max-w-none";
+
 	return (
 		<section className="relative max-h-screen h-screen overflow-hidden flex flex-col justify-center">
 			<Vortex
@@ -12,7 +139,7 @@ export const HeroSection = () => {
 				rangeY={100}
 				particleCount={200}
 				baseHue={80}
-				className="flex flex-col justify-center items-center"
+				className="flex flex-col justify-center items-center overflow-scroll md:overflow-hidden"
 			>
 				<div className="container mx-auto px-4">
 					{/* Side by side layout for avatar and text */}
@@ -44,10 +171,71 @@ export const HeroSection = () => {
 						</div>
 					</div>
 
-					<div className="flex justify-around items-center">
-						<ProjectCarousel />
-						<MainSkills />
-						<QuickStats />
+					{/* Blockchain Nodes Section */}
+					<div
+						ref={containerRef}
+						className="relative mx-auto w-full max-w-xs md:max-w-4xl mt-6 md:mt-8"
+					>
+						{/* Desktop Layout (MD and up) */}
+						<div className="hidden md:flex flex-row justify-center items-center gap-10 lg:gap-16 py-4 relative">
+							<div ref={nodeRefs.projects}>
+								<BlockchainNode
+									nodeTitle="Featured Projects"
+									nodeId="0xP7A2"
+									accentColorClass="bg-sky-500"
+									icon={<Layers size={14} />}
+									portPositions={["right"]}
+									className={nodeCommonClass}
+								>
+									<ProjectCarousel />
+								</BlockchainNode>
+							</div>
+
+							<div ref={nodeRefs.tech}>
+								<MainSkills portPositions={["right", "left"]} />
+							</div>
+
+							<div ref={nodeRefs.stats}>
+								<BlockchainNode
+									nodeTitle="Quick Stats"
+									nodeId="0xS9F5"
+									accentColorClass="bg-amber-500"
+									icon={<BarChart2 size={14} />}
+									portPositions={["left"]}
+									className={nodeCommonClass}
+								>
+									<QuickStats />
+								</BlockchainNode>
+							</div>
+							{isMediumScreen && connectorPaths.length > 0 && (
+								<BlockchainConnector paths={connectorPaths} />
+							)}
+						</div>
+
+						{/* Mobile Layout (Stacked) */}
+						<div className="md:hidden flex flex-col items-center gap-6">
+							<BlockchainNode
+								nodeTitle="Featured Projects"
+								nodeId="0xP7A2m"
+								accentColorClass="bg-sky-500"
+								icon={<Layers size={14} />}
+								className={nodeCommonClass}
+							>
+								<ProjectCarousel />
+							</BlockchainNode>
+
+							<MainSkills />
+
+							<BlockchainNode
+								nodeTitle="Quick Stats"
+								nodeId="0xS9F5m"
+								accentColorClass="bg-amber-500"
+								icon={<BarChart2 size={14} />}
+								className={nodeCommonClass}
+							>
+								<QuickStats />
+							</BlockchainNode>
+						</div>
 					</div>
 				</div>
 			</Vortex>
