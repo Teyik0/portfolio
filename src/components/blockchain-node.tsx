@@ -64,10 +64,10 @@ export const BlockchainNode = ({
 			}}
 			className={cn(
 				`group relative flex flex-col bg-slate-900/60 backdrop-blur-md shadow-2xl
-         			border border-slate-700/70 hover:border-slate-500/80 transition-colors duration-300 w-full md:w-[270px] h-[240px] rounded-xl overflow-hidden
-         			before:absolute before:top-0 before:left-0 before:w-3 before:h-3 before:bg-slate-900/0 before:border-t before:border-l before:border-slate-700/0 before:transform before:-skew-x-[0deg] before:transition-all
-         			after:absolute after:bottom-0 after:right-0 after:w-3 after:h-3 after:bg-slate-900/0 after:border-b after:border-r after:border-slate-700/0 after:transform after:-skew-x-[0deg] after:transition-all
-         			group-hover:before:border-slate-500/80 group-hover:after:border-slate-500/80`,
+     			border border-slate-700/70 hover:border-slate-500/80 transition-colors duration-300 w-[270px] md:w-[220px] lg:w-[270px] h-[240px] md:h-[200px] lg:h-[240px] rounded-xl overflow-hidden
+     			before:absolute before:top-0 before:left-0 before:w-3 before:h-3 before:bg-slate-900/0 before:border-t before:border-l before:border-slate-700/0 before:transform before:-skew-x-[0deg] before:transition-all
+     			after:absolute after:bottom-0 after:right-0 after:w-3 after:h-3 after:bg-slate-900/0 after:border-b after:border-r after:border-slate-700/0 after:transform after:-skew-x-[0deg] after:transition-all
+     			group-hover:before:border-slate-500/80 group-hover:after:border-slate-500/80`,
 				className,
 			)}
 		>

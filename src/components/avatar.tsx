@@ -15,7 +15,7 @@ export const Avatar = () => {
 				ease: "easeInOut", // Easing function
 			}}
 		>
-			<div className="avatar w-64">
+			<div className="avatar w-64 translate-y-4 md:translate-y-0">
 				<Image
 					src="/ghibli.webp"
 					alt="profile-photo"

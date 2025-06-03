@@ -11,7 +11,6 @@ interface ConnectionPath {
 	thickness?: number;
 	animated?: boolean;
 	animationSpeed?: number; // Slower is larger number
-	showArrow?: boolean;
 }
 
 interface BlockchainConnectorProps {
@@ -33,19 +32,6 @@ export const BlockchainConnector = ({
 			overflow="visible" // Ensure markers are visible
 		>
 			<title>Connector</title>
-			<defs>
-				<marker
-					id="dynamicArrowhead"
-					markerWidth="5" // Smaller arrowhead
-					markerHeight="3.5"
-					refX="4.5"
-					refY="1.75"
-					orient="auto"
-					// fill property will be inherited from the path's stroke
-				>
-					<polygon points="0 0, 5 1.75, 0 3.5" />
-				</marker>
-			</defs>
 			{paths.map((conn) => (
 				<g key={conn.id}>
 					<motion.path
@@ -59,15 +45,6 @@ export const BlockchainConnector = ({
 							delay: 0.5 + Math.random() * 0.4,
 							ease: "circOut",
 						}}
-						markerEnd={conn.showArrow ? "url(#dynamicArrowhead)" : undefined}
-						style={
-							conn.showArrow
-								? {
-										stroke:
-											conn.color?.replace("stroke-", "") || "currentColor",
-									}
-								: {}
-						}
 					/>
 					{conn.animated && (
 						<motion.path

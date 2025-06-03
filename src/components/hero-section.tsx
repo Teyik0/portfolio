@@ -91,7 +91,7 @@ export const HeroSection = () => {
 				const statsLeft = getPortPosition(nodeRefs.stats!, "left");
 
 				// A slightly curved path example
-				const projToTechPath = `M ${projRight.x} ${projRight.y} C ${projRight.x + 40} ${projRight.y}, ${techLeft.x - 40} ${techLeft.y}, ${techLeft.x} ${techLeft.y}`;
+				const projToTechPath = `M ${projRight.x} ${projRight.y} C ${projRight.x} ${projRight.y}, ${techLeft.x} ${techLeft.y}, ${techLeft.x} ${techLeft.y}`;
 				const techToStatsPath = `M ${techRight.x} ${techRight.y} C ${techRight.x + 40} ${techRight.y}, ${statsLeft.x - 40} ${statsLeft.y}, ${statsLeft.x} ${statsLeft.y}`;
 
 				setConnectorPaths([
@@ -100,16 +100,14 @@ export const HeroSection = () => {
 						path: projToTechPath,
 						color: "stroke-sky-500",
 						animated: true,
-						showArrow: true,
-						thickness: 1.5,
+						thickness: 2.5,
 					},
 					{
 						id: "t-s",
 						path: techToStatsPath,
-						color: "stroke-emerald-500",
+						color: "stroke-purple-600",
 						animated: true,
-						showArrow: true,
-						thickness: 1.5,
+						thickness: 2.5,
 					},
 				]);
 			}
@@ -139,19 +137,19 @@ export const HeroSection = () => {
 				rangeY={100}
 				particleCount={200}
 				baseHue={80}
-				className="flex flex-col justify-center items-center overflow-scroll md:overflow-hidden"
+				className="flex flex-col md:justify-center md:items-center overflow-scroll md:overflow-hidden"
 			>
-				<div className="container mx-auto px-4">
+				<div className="md:container mx-auto px-4">
 					{/* Side by side layout for avatar and text */}
-					<div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
+					<div className="flex flex-col md:flex-row items-center justify-center md:gap-16 mt-16 md:mt-0">
 						<Avatar />
 
-						<div className="text-center md:text-left max-w-xl">
+						<div className="text-center md:text-left md:max-w-xl">
 							<h1 className="text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl text-white font-bold">
 								Hi, I'm Théo
 							</h1>
 
-							<div className="flex text-white gap-3 mt-2 text-sm lg:text-base xl:text-lg 2xl:text-xl font-semibold">
+							<div className="flex justify-center md:justify-normal text-white gap-3 mt-2 text-sm lg:text-base xl:text-lg 2xl:text-xl font-semibold">
 								<span>Developer fullstack / </span>
 								<span className="text-amber-500 underline underline-offset-2">
 									blockchain
@@ -174,13 +172,13 @@ export const HeroSection = () => {
 					{/* Blockchain Nodes Section */}
 					<div
 						ref={containerRef}
-						className="relative mx-auto w-full max-w-xs md:max-w-4xl mt-6 md:mt-8"
+						className="relative flex justify-center mt-16 md:mt-0"
 					>
 						{/* Desktop Layout (MD and up) */}
-						<div className="hidden md:flex flex-row justify-center items-center gap-10 lg:gap-16 py-4 relative">
+						<div className="hidden md:flex flex-row items-center gap-10 lg:gap-16 py-4 relative">
 							<div ref={nodeRefs.projects}>
 								<BlockchainNode
-									nodeTitle="Featured Projects"
+									nodeTitle="Projects"
 									nodeId="0xP7A2"
 									accentColorClass="bg-sky-500"
 									icon={<Layers size={14} />}
@@ -207,19 +205,19 @@ export const HeroSection = () => {
 									<QuickStats />
 								</BlockchainNode>
 							</div>
-							{isMediumScreen && connectorPaths.length > 0 && (
-								<BlockchainConnector paths={connectorPaths} />
-							)}
 						</div>
+						{isMediumScreen && connectorPaths.length > 0 && (
+							<BlockchainConnector paths={connectorPaths} />
+						)}
 
 						{/* Mobile Layout (Stacked) */}
-						<div className="md:hidden flex flex-col items-center gap-6">
+						<div className="md:hidden flex flex-col w-full items-center gap-12 mb-12">
 							<BlockchainNode
 								nodeTitle="Featured Projects"
 								nodeId="0xP7A2m"
 								accentColorClass="bg-sky-500"
 								icon={<Layers size={14} />}
-								className={nodeCommonClass}
+								className="w-full sm:min-h-80"
 							>
 								<ProjectCarousel />
 							</BlockchainNode>
@@ -231,7 +229,7 @@ export const HeroSection = () => {
 								nodeId="0xS9F5m"
 								accentColorClass="bg-amber-500"
 								icon={<BarChart2 size={14} />}
-								className={nodeCommonClass}
+								className="w-full sm:min-h-80"
 							>
 								<QuickStats />
 							</BlockchainNode>

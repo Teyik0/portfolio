@@ -83,16 +83,17 @@ export const MainSkills = ({
 				ease: [0.25, 1, 0.5, 1],
 				delay: Math.random() * 0.3,
 			}}
-			className="w-full max-w-[280px] md:max-w-none relative overflow-hidden p-6 grid grid-cols-2 gap-16 border border-white/20 bg-white/5 backdrop-blur-md rounded-2xl"
+			className="relative w-full h-[240px] sm:h-[300px] md:w-[240px] md:h-[240px] lg:w-[270px] lg:h-[270px] grid grid-cols-2
+		             border border-white/20 bg-white/5 backdrop-blur-md rounded-2xl overflow-hidden"
 		>
 			{/* Central lines */}
 			<div
 				className="absolute left-1/2 top-4 bottom-4 w-px -translate-x-1/2 pointer-events-none
-					                bg-[linear-gradient(to_bottom,transparent,rgba(255,255,255,0.20)_40%,rgba(255,255,255,0.20)_60%,transparent)]"
+					         bg-[linear-gradient(to_bottom,transparent,rgba(255,255,255,0.20)_40%,rgba(255,255,255,0.20)_60%,transparent)]"
 			/>
 			<div
 				className="absolute left-1/2 top-1/2 w-[calc(100%-2rem)] h-px -translate-x-1/2 -translate-y-1/2 pointer-events-none
-					                bg-[linear-gradient(to_right,transparent,rgba(255,255,255,0.20)_40%,rgba(255,255,255,0.20)_60%,transparent)]"
+					         bg-[linear-gradient(to_right,transparent,rgba(255,255,255,0.20)_40%,rgba(255,255,255,0.20)_60%,transparent)]"
 			/>
 
 			{/* Subtle gradient border effect */}
@@ -105,10 +106,10 @@ export const MainSkills = ({
 					<button
 						type="button"
 						className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-xs flex justify-center items-center z-10
-  													bg-linear-to-r from-neutral-900/90 via-neutral-700/90 to-neutral-900/90 cursor-pointer
-  													hover:from-neutral-800/80 hover:via-neutral-600/70 hover:to-neutral-800/80
-  													backdrop-blur-md text-white px-3 py-1.5 rounded-full border border-white/20 transition-all duration-300
-  													shadow-lg hover:shadow-white/5 w-max"
+  											bg-linear-to-r from-neutral-900/90 via-neutral-700/90 to-neutral-900/90 cursor-pointer
+  											hover:from-neutral-800/80 hover:via-neutral-600/70 hover:to-neutral-800/80
+  											backdrop-blur-md text-white px-3 py-1.5 rounded-full border border-white/20 transition-all duration-300
+  											shadow-lg hover:shadow-white/5 w-max"
 					>
 						{">"} Tech Stacks
 					</button>
@@ -137,19 +138,14 @@ export const MainSkills = ({
 			{mainSkills.map((skill, index) => (
 				<motion.div
 					key={`${skill.icon.type}-${index}`}
-					className="flex flex-col items-center text-center group"
+					animate={{ opacity: 1, y: 0 }}
+					whileHover={{ scale: 1.1, rotate: 5 }}
+					whileTap={{ scale: 0.95 }}
+					className="flex justify-center items-center text-white hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]"
 				>
-					<motion.div
-						initial={{ opacity: 0, y: 20 }}
-						animate={{ opacity: 1, y: 0 }}
-						whileHover={{ scale: 1.1, rotate: 5 }}
-						whileTap={{ scale: 0.95 }}
-						className="text-white group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]"
-					>
-						{React.cloneElement(skill.icon, {
-							className: "xl:size-16 size-16",
-						})}
-					</motion.div>
+					{React.cloneElement(skill.icon, {
+						className: "size-16",
+					})}
 				</motion.div>
 			))}
 
@@ -158,7 +154,7 @@ export const MainSkills = ({
 				<PortIndicator
 					key={side}
 					side={side}
-					accentColorClass="bg-emerald-500 z-50"
+					accentColorClass="bg-purple-600 z-50"
 				/>
 			))}
 		</motion.div>
