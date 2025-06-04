@@ -140,7 +140,7 @@ export const HeroSection = () => {
 				baseHue={80}
 				className="flex flex-col md:justify-center md:items-center overflow-scroll md:overflow-hidden"
 			>
-				<Navbar />
+				{/* <Navbar /> */}
 
 				<div className="md:container mx-auto px-4">
 					{/* Side by side layout for avatar and text */}
