@@ -3,7 +3,7 @@ import type React from "react";
 import "./globals.css";
 
 export const metadata = {
-	title: "Theo - Portfolio 2025",
+	title: "Teyik0 - Portfolio 2025",
 	description: "Discover my portfolio",
 };
 

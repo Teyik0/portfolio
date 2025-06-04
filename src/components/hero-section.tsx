@@ -10,6 +10,7 @@ import { QuickStats } from "./stats";
 import type React from "react";
 
 import { useMediaQuery } from "@/hooks/use-media-query"; // This import should now work
+import { blockchainProjects, fullstackProjects } from "@/lib/projects";
 import { BarChart2, Layers } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { BlockchainConnector } from "./blockchain-connector";
@@ -150,21 +151,31 @@ export const HeroSection = () => {
 							</h1>
 
 							<div className="flex justify-center md:justify-normal text-white gap-3 mt-2 text-sm lg:text-base xl:text-lg 2xl:text-xl font-semibold">
-								<span>Developer fullstack / </span>
+								Developer{" "}
+								<span className="text-purple-500 underline underline-offset-2">
+									fullstack
+								</span>
+								{" / "}
 								<span className="text-amber-500 underline underline-offset-2">
 									blockchain
 								</span>
 								{" / "}
-								<span className="text-blue-400 underline underline-offset-2">
-									AI
+								<span className="text-indigo-400 underline underline-offset-2">
+									devops
 								</span>
 							</div>
 							<p className="mt-4 lg:mt-6 text-white/80 text-xs lg:text-sm xl:text-base 2xl:text-lg">
-								A performance-oriented developer, I use{" "}
-								<span className="text-blue-400">AI tools</span> for maximum
-								efficiency and to stay technologically current. I specialize in{" "}
-								<span className="text-amber-500">blockchain</span>, actively
-								exploring this rapidly innovating field.
+								A performance-driven developer, I leverage{" "}
+								<span className="font-semibold">AI tools</span> extensively to
+								maximize efficiency and stay ahead of the tech curve.
+								Specialized in{" "}
+								<span className="text-amber-500 font-semibold">blockchain</span>
+								, I also bring strong{" "}
+								<span className="text-purple-500 font-semibold">fullstack</span>{" "}
+								and{" "}
+								<span className="text-indigo-400 font-semibold">DevOps</span>{" "}
+								skills, enabling me to build and operate complex, end-to-end
+								systems in fast-evolving environments.
 							</p>
 						</div>
 					</div>
@@ -178,14 +189,14 @@ export const HeroSection = () => {
 						<div className="hidden md:flex flex-row items-center gap-10 lg:gap-16 py-4 relative">
 							<div ref={nodeRefs.projects}>
 								<BlockchainNode
-									nodeTitle="Projects"
+									nodeTitle="Blockchain - Projects"
 									nodeId="0xP7A2"
 									accentColorClass="bg-sky-500"
 									icon={<Layers size={14} />}
 									portPositions={["right"]}
 									className={nodeCommonClass}
 								>
-									<ProjectCarousel />
+									<ProjectCarousel projects={blockchainProjects} />
 								</BlockchainNode>
 							</div>
 
@@ -195,14 +206,14 @@ export const HeroSection = () => {
 
 							<div ref={nodeRefs.stats}>
 								<BlockchainNode
-									nodeTitle="Quick Stats"
+									nodeTitle="Backend & Fullstack"
 									nodeId="0xS9F5"
 									accentColorClass="bg-amber-500"
 									icon={<BarChart2 size={14} />}
 									portPositions={["left"]}
 									className={nodeCommonClass}
 								>
-									<QuickStats />
+									<ProjectCarousel projects={fullstackProjects} />
 								</BlockchainNode>
 							</div>
 						</div>
@@ -219,7 +230,7 @@ export const HeroSection = () => {
 								icon={<Layers size={14} />}
 								className="w-full sm:min-h-80"
 							>
-								<ProjectCarousel />
+								<ProjectCarousel projects={blockchainProjects} />
 							</BlockchainNode>
 
 							<MainSkills />
@@ -231,7 +242,7 @@ export const HeroSection = () => {
 								icon={<BarChart2 size={14} />}
 								className="w-full sm:min-h-80"
 							>
-								<QuickStats />
+								<ProjectCarousel projects={fullstackProjects} />
 							</BlockchainNode>
 						</div>
 					</div>

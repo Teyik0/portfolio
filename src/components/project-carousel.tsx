@@ -1,41 +1,12 @@
 "use client";
 
+import type { Project } from "@/lib/projects";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, ExternalLink, Github } from "lucide-react"; // Added Layers icon
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-type Project = {
-	title: string;
-	shortDesc: string;
-	githubUrl?: string;
-	liveUrl?: string;
-	tags: string[];
-};
-
-const projects: Project[] = [
-	{
-		title: "DeFi Analytics",
-		shortDesc: "Real-time blockchain data viz.",
-		githubUrl: "#",
-		liveUrl: "#",
-		tags: ["React", "Web3"],
-	},
-	{
-		title: "AI Code Assist",
-		shortDesc: "AI-powered code suggestions.",
-		githubUrl: "#",
-		tags: ["Python", "AI"],
-	},
-	{
-		title: "NFT Platform",
-		shortDesc: "Digital collectible marketplace.",
-		liveUrl: "#",
-		tags: ["Next.js", "Solidity"],
-	},
-];
-
-export const ProjectCarousel = () => {
+export const ProjectCarousel = ({ projects }: { projects: Project[] }) => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [direction, setDirection] = useState(0);
 
@@ -71,11 +42,10 @@ export const ProjectCarousel = () => {
 
 	const currentProject = projects[currentIndex];
 
-	// Auto-advance (optional, can be distracting in a busy UI)
-	// useEffect(() => {
-	//   const timer = setTimeout(() => handleNext(), 5000);
-	//   return () => clearTimeout(timer);
-	// }, [currentIndex]);
+	useEffect(() => {
+		const timer = setTimeout(() => handleNext(), 8000);
+		return () => clearTimeout(timer);
+	}, [currentIndex]);
 
 	return (
 		<div className="h-full flex flex-col justify-between">
@@ -96,24 +66,24 @@ export const ProjectCarousel = () => {
 						}}
 						className="absolute w-full h-full flex flex-col items-center justify-center"
 					>
-						<div className="p-2 w-full">
+						<div className="relative p-2 w-full bg-slate-800/50 rounded-xl">
 							<h4 className="text-xs font-semibold text-slate-100 truncate text-center">
 								{currentProject.title}
 							</h4>
-							<p className="text-[10px] text-slate-400 mt-0.5 leading-snug text-center h-6 overflow-hidden">
+							<p className="text-xs text-slate-400 mt-2 leading-snug text-center h-8 overflow-hidden">
 								{currentProject.shortDesc}
 							</p>
 							<div className="flex flex-wrap gap-1 mt-1.5 justify-center">
 								{currentProject.tags.map((tag) => (
 									<span
 										key={tag}
-										className="text-[8px] px-1 py-0.5 rounded-sm bg-slate-700 text-slate-300"
+										className="text-[10px] md:text-[8px] lg:text-[10px] px-1 py-0.5 rounded-sm bg-slate-700 text-slate-300"
 									>
 										{tag}
 									</span>
 								))}
 							</div>
-							<div className="flex justify-center gap-3 mt-2">
+							<div className="absolute -top-0.25 z-50 left-2 flex justify-center items-center gap-1.5 mt-2">
 								{currentProject.githubUrl && (
 									<Link
 										href={currentProject.githubUrl}
@@ -121,7 +91,7 @@ export const ProjectCarousel = () => {
 										rel="noopener noreferrer"
 										className="text-slate-400 hover:text-sky-400 transition-colors"
 									>
-										<Github size={12} />
+										<Github size={16} />
 									</Link>
 								)}
 								{currentProject.liveUrl && (
@@ -131,7 +101,7 @@ export const ProjectCarousel = () => {
 										rel="noopener noreferrer"
 										className="text-slate-400 hover:text-sky-400 transition-colors"
 									>
-										<ExternalLink size={12} />
+										<ExternalLink size={16} />
 									</Link>
 								)}
 							</div>
@@ -141,7 +111,7 @@ export const ProjectCarousel = () => {
 			</div>
 
 			{/* Navigation */}
-			<div className="flex items-center justify-between px-1 pt-1">
+			<div className="flex items-center z-0 justify-between px-1 pt-1">
 				<button
 					type="button"
 					onClick={handlePrevious}
