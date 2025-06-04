@@ -5,7 +5,6 @@ import { MainSkills } from "@/components/main-skills";
 import RadialGradient from "@/components/ui/radial-gradient";
 import { Vortex } from "@/components/ui/vortex";
 import { ProjectCarousel } from "./project-carousel";
-import { QuickStats } from "./stats";
 
 import type React from "react";
 
@@ -15,6 +14,7 @@ import { BarChart2, Layers } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { BlockchainConnector } from "./blockchain-connector";
 import { BlockchainNode } from "./blockchain-node";
+import { Navbar } from "./navbar";
 
 export const HeroSection = () => {
 	const isMediumScreen = useMediaQuery("(min-width: 768px)");
@@ -132,7 +132,7 @@ export const HeroSection = () => {
 	const nodeCommonClass = "w-full max-w-[280px] md:max-w-none";
 
 	return (
-		<section className="relative max-h-screen h-screen overflow-hidden flex flex-col justify-center">
+		<section className="relative h-screen overflow-hidden flex flex-col justify-center">
 			<Vortex
 				backgroundColor="black"
 				rangeY={100}
@@ -140,6 +140,8 @@ export const HeroSection = () => {
 				baseHue={80}
 				className="flex flex-col md:justify-center md:items-center overflow-scroll md:overflow-hidden"
 			>
+				<Navbar />
+
 				<div className="md:container mx-auto px-4">
 					{/* Side by side layout for avatar and text */}
 					<div className="flex flex-col md:flex-row items-center justify-center md:gap-16 mt-16 md:mt-0">
@@ -206,7 +208,7 @@ export const HeroSection = () => {
 
 							<div ref={nodeRefs.stats}>
 								<BlockchainNode
-									nodeTitle="Backend & Fullstack"
+									nodeTitle="Backend / Fullstack"
 									nodeId="0xS9F5"
 									accentColorClass="bg-amber-500"
 									icon={<BarChart2 size={14} />}

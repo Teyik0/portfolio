@@ -1,4 +1,3 @@
-import { Navbar } from "@/components/navbar";
 import type React from "react";
 import "./globals.css";
 
@@ -15,7 +14,6 @@ export default function RootLayout({
 	return (
 		<html lang="en" className="scroll-smooth">
 			<body id="home" className="font-mono">
-				<Navbar />
 				{children}
 			</body>
 		</html>
