@@ -1,9 +1,11 @@
-import { HeroSection } from "@/components/hero-section";
+import { HeroSection } from "./hero-section";
+import { SkillsSection } from "./skills-section";
 
 export default function Home() {
 	return (
-		<main>
+		<main className="md:container mx-auto px-4">
 			<HeroSection />
+			<SkillsSection />
 		</main>
 	);
 }
