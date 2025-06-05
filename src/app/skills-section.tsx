@@ -169,7 +169,7 @@ export const SkillsSection = () => {
 			{/* Mobile Layout (Stacked) */}
 			<div className="md:hidden flex flex-col w-full items-center gap-12 mb-12">
 				<BlockchainNode
-					nodeTitle="Featured Projects"
+					nodeTitle="Blockchain - Projects"
 					nodeId="0xP7A2m"
 					accentColorClass="bg-sky-500"
 					icon={<Layers size={14} />}
