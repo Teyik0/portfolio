@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en" className="scroll-smooth">
-			<body className="font-mono relative min-h-screen m-0 p-0 overflow-x-hidden bg-black">
+			<body className="font-mono relative m-0 p-0 overflow-x-hidden bg-black">
 				<Vortex
 					backgroundColor="black"
 					rangeY={100}

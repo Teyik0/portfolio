@@ -3,9 +3,9 @@ import type React from "react";
 
 export const HeroSection = () => {
 	return (
-		<div className="flex flex-col md:flex-row items-center justify-center md:gap-16 mt-16 md:mt-0">
+		<div className="flex flex-col md:flex-row items-center justify-center md:gap-16">
 			<Avatar />
-			<div className="text-center md:text-left md:max-w-xl">
+			<div className="text-center md:text-left md:max-w-xl mt-8 md:mt-0">
 				<h1 className="text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl text-white font-bold">
 					Hi, I'm Théo
 				</h1>
