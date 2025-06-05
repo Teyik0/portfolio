@@ -1,6 +1,8 @@
-import { Navbar } from "@/components/navbar";
 import type React from "react";
 import "./globals.css";
+import { Navbar } from "@/components/navbar";
+import RadialGradient from "@/components/ui/radial-gradient";
+import { Vortex } from "@/components/ui/vortex";
 
 export const metadata = {
 	title: "Teyik0 - Portfolio 2025",
@@ -14,9 +16,18 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en" className="scroll-smooth">
-			<body id="home" className="font-mono">
-				<Navbar />
-				{children}
+			<body className="font-mono relative m-0 p-0 overflow-x-hidden bg-black">
+				<Vortex
+					backgroundColor="black"
+					rangeY={100}
+					particleCount={200}
+					baseHue={80}
+					className="min-h-screen w-full"
+				>
+					<Navbar />
+					{children}
+				</Vortex>
+				<RadialGradient size={700} />
 			</body>
 		</html>
 	);

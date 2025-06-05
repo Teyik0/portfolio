@@ -15,12 +15,12 @@ export const Avatar = () => {
 				ease: "easeInOut", // Easing function
 			}}
 		>
-			<div className="avatar w-64 translate-y-4 md:translate-y-0">
+			<div className="avatar w-72">
 				<Image
 					src="/ghibli.webp"
 					alt="profile-photo"
-					width={10}
-					height={10}
+					width={15}
+					height={15}
 					className="mask mask-squircle"
 				/>
 			</div>
