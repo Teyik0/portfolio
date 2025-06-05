@@ -28,13 +28,12 @@ export const HeroSection = () => {
 					<span className="font-semibold"> AI tools </span>
 					extensively to maximize efficiency and stay ahead of the tech curve.
 					Specialized in{" "}
-					<span className="text-amber-500 font-semibold"> blockchain</span>, I
-					also bring strong
+					<span className="text-amber-500 font-semibold"> blockchain</span>,
 					<span className="text-purple-500 font-semibold"> fullstack </span>
 					and
-					<span className="text-indigo-400 font-semibold"> DevOps </span>
-					skills, enabling me to build and operate complex, end to end systems
-					in fast evolving environments.
+					<span className="text-indigo-400 font-semibold"> DevOps</span>, I can
+					build and operate complex, end to end systems in fast evolving
+					environments.
 				</p>
 			</div>
 		</div>

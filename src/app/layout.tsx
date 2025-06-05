@@ -16,18 +16,23 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en" className="scroll-smooth">
-			<body id="home" className="font-mono">
+			<head>
+				<meta name="viewport" content="width=device-width, initial-scale=1" />
+			</head>
+			<body className="font-mono relative h-screen m-0 p-0 overflow-x-hidden">
 				<Vortex
 					backgroundColor="black"
 					rangeY={100}
 					particleCount={200}
 					baseHue={80}
-					className="relative h-screen flex flex-col md:justify-center md:items-center overflow-scroll md:overflow-hidden"
+					className="flex flex-col min-h-screen w-full md:justify-center md:items-center"
 				>
-					<Navbar />
+					<div className="flex-shrink-0">
+						<Navbar />
+					</div>
 					{children}
-					<RadialGradient size={700} />
 				</Vortex>
+				<RadialGradient size={700} />
 			</body>
 		</html>
 	);
