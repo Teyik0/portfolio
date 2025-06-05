@@ -19,17 +19,15 @@ export default function RootLayout({
 			<head>
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 			</head>
-			<body className="font-mono relative h-screen m-0 p-0 overflow-x-hidden">
+			<body className="font-mono relative min-h-screen m-0 p-0 overflow-x-hidden bg-black">
 				<Vortex
 					backgroundColor="black"
 					rangeY={100}
 					particleCount={200}
 					baseHue={80}
-					className="flex flex-col min-h-screen w-full md:justify-center md:items-center"
+					className="min-h-screen w-full"
 				>
-					<div className="flex-shrink-0">
-						<Navbar />
-					</div>
+					<Navbar />
 					{children}
 				</Vortex>
 				<RadialGradient size={700} />

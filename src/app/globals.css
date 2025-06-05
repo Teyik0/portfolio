@@ -108,6 +108,9 @@
 }
 
 @layer base {
+    * {
+        box-sizing: border-box;
+    }
     html {
         scroll-behavior: smooth;
     }
@@ -116,7 +119,10 @@
         padding: 0;
         background-color: black;
         color: white;
+        overflow-x: hidden;
         font-family: "Fira Code", "Menlo", "Monaco", "Courier New", monospace;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
     }
     section {
         scroll-margin-top: 100px;
