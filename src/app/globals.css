@@ -1,11 +1,11 @@
 @import "tailwindcss";
-
+/* biome-ignore lint: tailwind macro exist */
 @plugin "daisyui";
-
+/* biome-ignore lint: tailwind macro exist */
 @source '../*.{js,ts,jsx,tsx,mdx}';
-
+/* biome-ignore lint: tailwind macro exist */
 @custom-variant dark (&:is(.dark *));
-
+/* biome-ignore lint: tailwind macro exist */
 @theme {
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
@@ -98,11 +98,11 @@
 /* Ensure sections have proper spacing from floating navbar */
 
 /* Custom scrollbar */
-
+/* biome-ignore lint: tailwind macro exist */
 @utility text-balance {
   text-wrap: balance;
 }
-
+/* biome-ignore lint: tailwind macro exist */
 @utility shadow-glow {
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
 }
@@ -220,9 +220,11 @@
 
 @layer base {
   * {
+    /* biome-ignore lint: tailwind macro exist */
     @apply border-border;
   }
   body {
+    /* biome-ignore lint: tailwind macro exist  */
     @apply bg-background text-foreground;
   }
 }

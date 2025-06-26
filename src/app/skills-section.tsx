@@ -9,6 +9,15 @@ import { ProjectCarousel } from '@/components/project-carousel';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { blockchainProjects, fullstackProjects } from '@/lib/projects';
 
+interface ConnectionPath {
+  id: string;
+  path: string;
+  color?: string;
+  thickness?: number;
+  animated?: boolean;
+  animationSpeed?: number;
+}
+
 export const SkillsSection = () => {
   const isMediumScreen = useMediaQuery('(min-width: 768px)');
   const containerRef = useRef<HTMLDivElement>(null);
@@ -17,7 +26,7 @@ export const SkillsSection = () => {
     tech: useRef<HTMLDivElement>(null),
     stats: useRef<HTMLDivElement>(null),
   };
-  const [connectorPaths, setConnectorPaths] = useState<any[]>([]);
+  const [connectorPaths, setConnectorPaths] = useState<ConnectionPath[]>([]);
 
   useEffect(() => {
     if (!(isMediumScreen && containerRef.current)) {
@@ -26,7 +35,7 @@ export const SkillsSection = () => {
     }
 
     const getPortPosition = (
-      nodeRef: React.RefObject<HTMLDivElement>,
+      nodeRef: React.RefObject<HTMLDivElement | null>,
       side: 'top' | 'right' | 'bottom' | 'left'
     ) => {
       if (!(nodeRef.current && containerRef.current)) {
@@ -81,10 +90,10 @@ export const SkillsSection = () => {
       const s = nodeRefs.stats.current;
 
       if (p && t && s && containerRef.current) {
-        const projRight = getPortPosition(nodeRefs.projects!, 'right');
-        const techLeft = getPortPosition(nodeRefs.tech!, 'left');
-        const techRight = getPortPosition(nodeRefs.tech!, 'right');
-        const statsLeft = getPortPosition(nodeRefs.stats!, 'left');
+        const projRight = getPortPosition(nodeRefs.projects, 'right');
+        const techLeft = getPortPosition(nodeRefs.tech, 'left');
+        const techRight = getPortPosition(nodeRefs.tech, 'right');
+        const statsLeft = getPortPosition(nodeRefs.stats, 'left');
 
         // A slightly curved path example
         const projToTechPath = `M ${projRight.x} ${projRight.y} C ${projRight.x} ${projRight.y}, ${techLeft.x} ${techLeft.y}, ${techLeft.x} ${techLeft.y}`;

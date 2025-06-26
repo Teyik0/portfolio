@@ -10,15 +10,15 @@ export const HeroSection = () => {
         </h1>
         <div className="mt-2 flex justify-center gap-3 font-semibold text-sm text-white md:justify-normal lg:text-base xl:text-lg 2xl:text-xl">
           Developer
-          <span className="text-purple-500 underline underline-offset-2">
+          <span className="text-amber-500 underline underline-offset-2">
             fullstack
           </span>
           {' / '}
-          <span className="text-amber-500 underline underline-offset-2">
+          <span className="text-indigo-400 underline underline-offset-2">
             blockchain
           </span>
           {' / '}
-          <span className="text-indigo-400 underline underline-offset-2">
+          <span className="text-purple-500 underline underline-offset-2">
             devops
           </span>
         </div>
@@ -27,10 +27,10 @@ export const HeroSection = () => {
           <span className="font-semibold"> AI tools </span>
           extensively to maximize efficiency and stay ahead of the tech curve.
           Specialized in{' '}
-          <span className="font-semibold text-amber-500"> blockchain</span>,
-          <span className="font-semibold text-purple-500"> fullstack </span>
+          <span className="font-semibold text-indigo-400"> blockchain</span>,
+          <span className="font-semibold text-amber-500"> fullstack </span>
           and
-          <span className="font-semibold text-indigo-400"> DevOps</span>, I can
+          <span className="font-semibold text-purple-500"> DevOps</span>, I can
           build and operate complex end to end systems in fast evolving
           environments.
         </p>
