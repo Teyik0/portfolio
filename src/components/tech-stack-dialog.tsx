@@ -28,7 +28,7 @@ const TechIcon = ({ tech, index }: { tech: TechItem; index: number }) => {
   return (
     <motion.button
       animate={{ opacity: 1, y: 0 }}
-      className="group relative flex flex-col items-center space-y-2 rounded-lg border border-white/10 bg-white/5 p-3 backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-white/10 hover:shadow-lg hover:shadow-white/10"
+      className="group relative flex cursor-pointer flex-col items-center space-y-2 rounded-lg border border-white/10 bg-white/5 p-3 backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-white/10 hover:shadow-lg hover:shadow-white/10"
       initial={{ opacity: 0, y: 20 }}
       onClick={() =>
         tech.url && window.open(tech.url, '_blank', 'noopener,noreferrer')
@@ -84,7 +84,7 @@ const CategorySection = ({
   return (
     <div className="space-y-3">
       <button
-        className={`flex w-full items-center justify-between rounded-lg border bg-gradient-to-r p-3 text-left transition-all duration-300 hover:shadow-md ${categoryColors[title as keyof typeof categoryColors]}`}
+        className={`flex w-full cursor-pointer items-center justify-between rounded-lg border bg-gradient-to-r p-3 text-left transition-all duration-300 hover:shadow-md ${categoryColors[title as keyof typeof categoryColors]}`}
         onClick={onToggle}
         type="button"
       >
@@ -146,10 +146,20 @@ export const TechStackDialog = ({
   });
 
   const toggleSection = (section: string) => {
-    setOpenSections((prev) => ({
-      ...prev,
-      [section]: !prev[section],
-    }));
+    setOpenSections((prev) => {
+      // If the clicked section is already open, close it
+      if (prev[section]) {
+        return { ...prev, [section]: false };
+      }
+
+      // Close all sections and open only the clicked one
+      const newState: Record<string, boolean> = {};
+      for (const key of Object.keys(techStackData)) {
+        newState[key] = key === section;
+      }
+
+      return newState;
+    });
   };
 
   const totalTechnologies = Object.values(techStackData).reduce(

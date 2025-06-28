@@ -1,4 +1,15 @@
+import Image from 'next/image';
+import AnchorWebp from './icons/anchor.webp';
+import FoundryPng from './icons/foundry.png';
+import { HardhatSvg } from './icons/hardhat';
+import { JenkinsSvg } from './icons/jenkins';
+import JenkinsPng from './icons/jenkins.png';
 import { NextjsSvg } from './icons/nextjs';
+import { PydanticSvg } from './icons/pydantic';
+import { RuffSvg } from './icons/ruff';
+import { SoliditySvg } from './icons/solidity';
+import ViemPng from './icons/viem.png';
+import { WagmiSvg } from './icons/wagmi';
 
 export interface TechItem {
   name: string;
@@ -91,7 +102,7 @@ export const techStackData: Record<string, TechItem[]> = {
     },
     {
       name: 'Pydantic',
-      icon: 'https://svgl.app/library/pydantic.svg',
+      icon: <PydanticSvg className="size-8" />,
       category: 'Library',
       url: 'https://docs.pydantic.dev/',
     },
@@ -103,57 +114,45 @@ export const techStackData: Record<string, TechItem[]> = {
     },
     {
       name: 'Ruff',
-      icon: 'https://svgl.app/library/ruff.svg',
+      icon: <RuffSvg className="size-8" />,
       category: 'Linter',
       url: 'https://docs.astral.sh/ruff/',
     },
     {
-      name: 'Pytest',
-      icon: 'https://svgl.app/library/pytest.svg',
-      category: 'Testing',
-      url: 'https://pytest.org/',
-    },
-    {
-      name: 'Pandas',
-      icon: 'https://svgl.app/library/pandas.svg',
-      category: 'Library',
-      url: 'https://pandas.pydata.org/',
-    },
-    {
-      name: 'NumPy',
-      icon: 'https://svgl.app/library/numpy.svg',
-      category: 'Library',
-      url: 'https://numpy.org/',
+      name: 'FastAPI',
+      icon: 'https://svgl.app/library/fastapi.svg',
+      category: 'Framework',
+      url: 'https://fastapi.tiangolo.com/',
     },
   ],
   Blockchain: [
     {
       name: 'Viem',
-      icon: 'https://svgl.app/library/viem.svg',
+      icon: <Image alt="Viem logo" className="size-8" src={ViemPng} />,
       category: 'Library',
       url: 'https://viem.sh/',
     },
     {
       name: 'Solidity',
-      icon: 'https://svgl.app/library/solidity.svg',
+      icon: <SoliditySvg className="size-8" />,
       category: 'Language',
       url: 'https://soliditylang.org/',
     },
     {
       name: 'Hardhat',
-      icon: 'https://svgl.app/library/hardhat.svg',
+      icon: <HardhatSvg className="size-8" />,
       category: 'Framework',
       url: 'https://hardhat.org/',
     },
     {
       name: 'Foundry',
-      icon: 'https://svgl.app/library/foundry.svg',
+      icon: <Image alt="Foundry logo" className="size-8" src={FoundryPng} />,
       category: 'Framework',
       url: 'https://getfoundry.sh/',
     },
     {
       name: 'Wagmi',
-      icon: 'https://svgl.app/library/wagmi.svg',
+      icon: <WagmiSvg className="size-8" />,
       category: 'Library',
       url: 'https://wagmi.sh/',
     },
@@ -164,8 +163,8 @@ export const techStackData: Record<string, TechItem[]> = {
       url: 'https://metamask.io/',
     },
     {
-      name: 'Anchor Framework',
-      icon: 'https://svgl.app/library/anchor.svg',
+      name: 'Anchor',
+      icon: <Image alt="Anchor logo" className="size-8" src={AnchorWebp} />,
       category: 'Framework',
       url: 'https://www.anchor-lang.com/',
     },
@@ -173,7 +172,7 @@ export const techStackData: Record<string, TechItem[]> = {
   Infrastructure: [
     {
       name: 'Vercel',
-      icon: 'https://svgl.app/library/vercel.svg',
+      icon: 'https://svgl.app/library/vercel_dark.svg',
       category: 'Hosting',
       url: 'https://vercel.com/',
     },
@@ -185,7 +184,7 @@ export const techStackData: Record<string, TechItem[]> = {
     },
     {
       name: 'Railway',
-      icon: 'https://svgl.app/library/railway.svg',
+      icon: 'https://svgl.app/library/railway_dark.svg',
       category: 'Hosting',
       url: 'https://railway.app/',
     },
@@ -196,10 +195,10 @@ export const techStackData: Record<string, TechItem[]> = {
       url: 'https://supabase.com/',
     },
     {
-      name: 'AWS',
-      icon: 'https://svgl.app/library/aws.svg',
+      name: 'Neon',
+      icon: 'https://svgl.app/library/neon.svg',
       category: 'Cloud',
-      url: 'https://aws.amazon.com/',
+      url: 'https://neon.tech/',
     },
   ],
   DevOps: [
@@ -216,20 +215,20 @@ export const techStackData: Record<string, TechItem[]> = {
       url: 'https://kubernetes.io/',
     },
     {
-      name: 'GitHub Actions',
-      icon: 'https://svgl.app/library/github-actions.svg',
+      name: 'Gh actions',
+      icon: 'https://svgl.app/library/github_dark.svg',
       category: 'CI/CD',
       url: 'https://github.com/features/actions',
     },
     {
       name: 'Git',
       icon: 'https://svgl.app/library/git.svg',
-      category: 'Version Control',
+      category: 'Tooling',
       url: 'https://git-scm.com/',
     },
     {
       name: 'GitHub',
-      icon: 'https://svgl.app/library/github.svg',
+      icon: 'https://svgl.app/library/github_dark.svg',
       category: 'Platform',
       url: 'https://github.com/',
     },
@@ -247,7 +246,7 @@ export const techStackData: Record<string, TechItem[]> = {
     },
     {
       name: 'Jenkins',
-      icon: 'https://svgl.app/library/jenkins.svg',
+      icon: <Image alt="Jenkins" className="size-8" src={JenkinsPng} />,
       category: 'CI/CD',
       url: 'https://www.jenkins.io/',
     },
@@ -255,33 +254,21 @@ export const techStackData: Record<string, TechItem[]> = {
   Others: [
     {
       name: 'Go',
-      icon: 'https://svgl.app/library/go.svg',
+      icon: 'https://svgl.app/library/golang_dark.svg',
       category: 'Language',
       url: 'https://golang.org/',
     },
     {
-      name: 'C',
-      icon: 'https://svgl.app/library/c.svg',
+      name: 'C++',
+      icon: 'https://svgl.app/library/c-plusplus.svg',
       category: 'Language',
       url: 'https://en.wikipedia.org/wiki/C_(programming_language)',
-    },
-    {
-      name: 'C++',
-      icon: 'https://svgl.app/library/cpp.svg',
-      category: 'Language',
-      url: 'https://isocpp.org/',
     },
     {
       name: 'Java',
       icon: 'https://svgl.app/library/java.svg',
       category: 'Language',
       url: 'https://www.java.com/',
-    },
-    {
-      name: 'Groovy',
-      icon: 'https://svgl.app/library/groovy.svg',
-      category: 'Language',
-      url: 'https://groovy-lang.org/',
     },
   ],
 };
