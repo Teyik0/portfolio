@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { GitHubSvg } from '@/lib/icons/github';
@@ -87,7 +88,7 @@ export function Navbar() {
 
   return (
     <motion.header
-      className={`-translate-x-1/2 fixed top-6 left-1/2 z-20 flex transform flex-col items-center rounded-full py-3 pr-6 pl-6 backdrop-blur-xs ${headerShapeClass}border w-[calc(100%-2rem)] border-[#333] bg-[#1f1f1f57] transition-[border-radius] duration-0 ease-in-out sm:w-auto`}
+      className={`-translate-x-1/2 fixed top-6 left-1/2 z-20 flex transform flex-col items-center rounded-xl py-3 pr-6 pl-6 backdrop-blur-xs sm:rounded-full ${headerShapeClass}border w-[calc(100%-2rem)] border-[#333] bg-[#1f1f1f57] transition-[border-radius] duration-0 ease-in-out sm:w-auto`}
     >
       <div className="flex w-full items-center justify-between gap-x-6 sm:gap-x-8">
         <div className="flex items-center">
@@ -110,6 +111,29 @@ export function Navbar() {
             target="_blank"
           >
             <GitHubSvg className="size-8" />
+            <motion.div
+              className="absolute inset-0 rounded-full"
+              whileHover={{
+                borderColor: 'rgba(255, 255, 255, 0.3)',
+                scale: 1.5,
+                boxShadow: '0 0 15px rgba(255, 255, 255, 0.2)',
+                transition: { duration: 0.2 },
+              }}
+            />
+          </Link>
+          <Link
+            className="relative ml-4"
+            href="https://www.linkedin.com/in/th%C3%A9o-samarasinghe/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <Image
+              alt="LinkedIn"
+              className="size-8"
+              height={24}
+              src="https://svgl.app/library/linkedin.svg"
+              width={24}
+            />
             <motion.div
               className="absolute inset-0 rounded-full"
               whileHover={{
@@ -176,10 +200,51 @@ export function Navbar() {
               setActiveSection={setActiveSection}
             />
           ))}
+
+          <div className="flex items-center gap-6 pt-4">
+            <Link
+              className="relative"
+              href="https://github.com/Teyik0"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <GitHubSvg className="size-8" />
+              <motion.div
+                className="absolute inset-0 rounded-full"
+                whileHover={{
+                  borderColor: 'rgba(255, 255, 255, 0.3)',
+                  scale: 1.5,
+                  boxShadow: '0 0 15px rgba(255, 255, 255, 0.2)',
+                  transition: { duration: 0.2 },
+                }}
+              />
+            </Link>
+            <Link
+              className="relative"
+              href="https://www.linkedin.com/in/th%C3%A9o-samarasinghe/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <Image
+                alt="LinkedIn"
+                className="size-8"
+                height={24}
+                src="https://svgl.app/library/linkedin.svg"
+                width={24}
+              />
+              <motion.div
+                className="absolute inset-0 rounded-full"
+                whileHover={{
+                  borderColor: 'rgba(255, 255, 255, 0.3)',
+                  scale: 1.5,
+                  boxShadow: '0 0 15px rgba(255, 255, 255, 0.2)',
+                  transition: { duration: 0.2 },
+                }}
+              />
+            </Link>
+          </div>
         </div>
       </div>
-
-      <div className="-z-10 absolute inset-0 animate-pulse rounded-full bg-linear-to-r from-purple-500/10 to-blue-500/10 blur-xl" />
     </motion.header>
   );
 }
