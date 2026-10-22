@@ -1,0 +1,23 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <title>Teyik0</title>
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#bbff33" />
+      <stop offset="1" stop-color="#33f0ff" />
+    </linearGradient>
+    <radialGradient cx=".5" cy=".5" id="h" r=".6">
+      <stop offset="0" stop-color="#7877c6" stop-opacity=".45" />
+      <stop offset="1" stop-color="#7877c6" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect fill="#000" height="64" rx="14" width="64" />
+  <rect fill="url(#h)" height="64" rx="14" width="64" />
+  <path
+    d="M8 32c4 0 5-14 9-14s5 28 9 28 5-36 9-36 5 40 9 40 5-26 9-26 3 8 3 8"
+    fill="none"
+    stroke="url(#g)"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="4.2"
+  />
+</svg>
