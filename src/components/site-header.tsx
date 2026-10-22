@@ -37,9 +37,7 @@ export function SiteHeader() {
       return;
     }
     const place = () => {
-      const link = list.querySelector<HTMLElement>(
-        `[data-section="${active}"]`
-      );
+      const link = list.querySelector<HTMLElement>(`[data-section="${active}"]`);
       if (!link) {
         return;
       }
@@ -56,21 +54,13 @@ export function SiteHeader() {
   return (
     <header className="site-header intro" style={{ "--i": 0 } as CSSProperties}>
       <div className="shell site-header__row">
-        <a
-          aria-label={`${PROFILE.handle}, back to top`}
-          className="brand"
-          href="#index"
-        >
+        <a aria-label={`${PROFILE.handle}, back to top`} className="brand" href="#index">
           <BrandMark className="brand__mark size-[18px] text-ink" />
           <span className="brand__name">{PROFILE.handle}</span>
         </a>
 
         <nav aria-label="Sections" className="nav-pill">
-          <span
-            aria-hidden="true"
-            className="nav-pill__indicator"
-            ref={indicatorRef}
-          />
+          <span aria-hidden="true" className="nav-pill__indicator" ref={indicatorRef} />
           <ul className="nav-pill__list" ref={listRef}>
             {SECTIONS.map(({ id, label }) => (
               <li key={id}>
@@ -87,12 +77,7 @@ export function SiteHeader() {
           </ul>
         </nav>
 
-        <a
-          className="header-cta"
-          href={PROFILE.github}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
+        <a className="header-cta" href={PROFILE.github} rel="noopener noreferrer" target="_blank">
           <ScrambleText text="GitHub" />
           <span aria-hidden="true" className="header-cta__dot" />
         </a>

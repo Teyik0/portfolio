@@ -38,9 +38,7 @@ export const route = defineRoute("/")
   // which gives Open Graph crawlers the absolute URLs they require.
   .loader(() => {
     const vercelHost = process.env.VERCEL_PROJECT_PRODUCTION_URL;
-    const fallback = vercelHost
-      ? `https://${vercelHost}`
-      : "http://localhost:3000";
+    const fallback = vercelHost ? `https://${vercelHost}` : "http://localhost:3000";
     return {
       siteUrl: (process.env.SITE_URL ?? fallback).replace(TRAILING_SLASH, ""),
     };
@@ -63,14 +61,14 @@ export const route = defineRoute("/")
       { content: TITLE, property: "og:title" },
       { content: PROFILE.description, property: "og:description" },
       { content: `${siteUrl}/`, property: "og:url" },
-      { content: `${siteUrl}/public/og.png`, property: "og:image" },
+      { content: `${siteUrl}/public/og.jpg`, property: "og:image" },
       { content: "1200", property: "og:image:width" },
       { content: "630", property: "og:image:height" },
       { content: `${PROFILE.name}, ${PROFILE.role}`, property: "og:image:alt" },
       { content: "summary_large_image", name: "twitter:card" },
       { content: TITLE, name: "twitter:title" },
       { content: PROFILE.description, name: "twitter:description" },
-      { content: `${siteUrl}/public/og.png`, name: "twitter:image" },
+      { content: `${siteUrl}/public/og.jpg`, name: "twitter:image" },
       {
         "script:ld+json": {
           "@context": "https://schema.org",

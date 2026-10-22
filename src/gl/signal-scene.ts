@@ -32,7 +32,6 @@ export interface SignalSceneOptions {
   animate: boolean;
   onContextLost: () => void;
   onFirstFrame: () => void;
-  particleCount: number;
 }
 
 export interface SignalScene {
@@ -40,6 +39,8 @@ export interface SignalScene {
   dispose: () => void;
   resize: () => void;
   setActive: (active: boolean) => void;
+  /** 0..1: how much to quiet the field while text-dense content scrolls over it. */
+  setDim: (target: number) => void;
   setMorph: (target: number) => void;
   setPointer: (ndcX: number, ndcY: number) => void;
 }
@@ -50,6 +51,14 @@ const CAMERA_Z = 10;
 const INTRO_SECONDS = 2.6;
 /** Time used for the single static frame under reduced motion: every shape is fully formed. */
 const STATIC_TIME = 14;
+
+/** Tens of thousands of points on desktops; fewer on phones and low-power devices. */
+function pickParticleCount(): number {
+  const narrow = window.matchMedia("(max-width: 767px)").matches;
+  const cores = navigator.hardwareConcurrency ?? 8;
+  const memory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 8;
+  return narrow || cores <= 4 || memory <= 4 ? 18_000 : 52_000;
+}
 
 /**
  * Deterministic Park-Miller PRNG so every visit (and every screenshot) gets the same
@@ -155,7 +164,7 @@ export function createSignalScene(
 
   // Particles: all motion lives in the vertex shader; the CPU only uploads random seeds once.
   const random = seededRandom(20_260_519);
-  const count = options.particleCount;
+  const count = pickParticleCount();
   const randA = new Float32Array(count * 4);
   const randB = new Float32Array(count * 4);
   for (let i = 0; i < count * 4; i += 1) {
@@ -163,10 +172,7 @@ export function createSignalScene(
     randB[i] = random();
   }
   const geometry = new BufferGeometry();
-  geometry.setAttribute(
-    "position",
-    new BufferAttribute(new Float32Array(count * 3), 3)
-  );
+  geometry.setAttribute("position", new BufferAttribute(new Float32Array(count * 3), 3));
   geometry.setAttribute("aRandA", new BufferAttribute(randA, 4));
   geometry.setAttribute("aRandB", new BufferAttribute(randB, 4));
 
@@ -226,6 +232,11 @@ export function createSignalScene(
   let aspect = 1;
   let morph = 0;
   let morphTarget = 0;
+  let dim = 0;
+  let dimTarget = 0;
+  // Phones put text and field closer together: keep the field quieter there, and dim harder.
+  const baseOpacity = isNarrow ? 0.72 : 1;
+  const maxDim = isNarrow ? 0.85 : 0.5;
   let elapsed = options.animate ? 0 : STATIC_TIME;
   let last = performance.now();
   // The intro runs on wall-clock time so slow GPUs never get stuck mid-unfold.
@@ -247,7 +258,6 @@ export function createSignalScene(
     // Smaller sprites on phones keep the shapes crisp at a lower particle count.
     particleUniforms.uSize.value = isNarrow ? 2.6 : 3.0;
     // Phones put text and field closer together: keep the field a notch quieter there.
-    particleUniforms.uOpacity.value = isNarrow ? 0.72 : 1;
     hazeUniforms.uAspect.value = aspect;
   }
 
@@ -270,6 +280,7 @@ export function createSignalScene(
   function draw(): void {
     particleUniforms.uTime.value = elapsed;
     particleUniforms.uMorph.value = morph;
+    particleUniforms.uOpacity.value = baseOpacity * (1 - dim * maxDim);
     hazeUniforms.uTime.value = elapsed;
     updateHaze();
     renderer.render(scene, camera);
@@ -284,13 +295,10 @@ export function createSignalScene(
     if (introStart < 0) {
       introStart = last;
     }
-    particleUniforms.uIntro.value = Math.min(
-      1,
-      (last - introStart) / 1000 / INTRO_SECONDS
-    );
+    particleUniforms.uIntro.value = Math.min(1, (last - introStart) / 1000 / INTRO_SECONDS);
     morph += (morphTarget - morph) * (1 - Math.exp(-dt * 2.6));
-    pointer.active +=
-      (pointer.target - pointer.active) * (1 - Math.exp(-dt * 4));
+    dim += (dimTarget - dim) * (1 - Math.exp(-dt * 4));
+    pointer.active += (pointer.target - pointer.active) * (1 - Math.exp(-dt * 4));
     pointer.x += (pointer.tx - pointer.x) * (1 - Math.exp(-dt * 10));
     pointer.y += (pointer.ty - pointer.y) * (1 - Math.exp(-dt * 10));
     particleUniforms.uPointer.value.set(pointer.x, pointer.y);
@@ -327,8 +335,7 @@ export function createSignalScene(
     adapt(frameMs);
   }
   function syncLoop(): void {
-    const shouldRun =
-      options.animate && active && document.visibilityState === "visible";
+    const shouldRun = options.animate && active && document.visibilityState === "visible";
     if (shouldRun && !running) {
       running = true;
       last = performance.now();
@@ -389,6 +396,13 @@ export function createSignalScene(
     setActive(next) {
       active = next;
       syncLoop();
+    },
+    setDim(target) {
+      dimTarget = target;
+      if (!options.animate) {
+        dim = target;
+        requestStaticFrame();
+      }
     },
     setMorph(target) {
       morphTarget = target;

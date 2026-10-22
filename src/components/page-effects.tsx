@@ -8,9 +8,7 @@ import { useEffect } from "react";
  */
 export function PageEffects() {
   useEffect(() => {
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const reveals = document.querySelectorAll<HTMLElement>(".reveal");
     const observer = new IntersectionObserver(

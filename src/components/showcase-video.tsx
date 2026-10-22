@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface ShowcaseVideoProps {
   /** Accessible description of what the video shows. */
@@ -28,9 +28,7 @@ export function ShowcaseVideo({ label, name, title }: ShowcaseVideoProps) {
     if (!video) {
       return;
     }
-    const reduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     setReducedMotion(reduced);
     const onPlay = () => setPlaying(true);
     const onPause = () => setPlaying(false);
@@ -62,7 +60,7 @@ export function ShowcaseVideo({ label, name, title }: ShowcaseVideoProps) {
     };
   }, []);
 
-  const toggle = useCallback(() => {
+  const toggle = () => {
     const video = ref.current;
     if (!video) {
       return;
@@ -76,15 +74,12 @@ export function ShowcaseVideo({ label, name, title }: ShowcaseVideoProps) {
       userPaused.current = true;
       video.pause();
     }
-  }, []);
+  };
 
   const action = playing ? "Pause" : "Play";
 
   return (
-    <figure
-      className="window window--showcase"
-      data-playing={playing ? "" : undefined}
-    >
+    <figure className="window window--showcase">
       <figcaption className="window__bar">
         <span aria-hidden="true" className="window__dots">
           <i />
@@ -129,11 +124,7 @@ export function ShowcaseVideo({ label, name, title }: ShowcaseVideoProps) {
             onClick={toggle}
             type="button"
           >
-            <span
-              aria-hidden="true"
-              className="window__control-icon"
-              data-state="play"
-            />
+            <span aria-hidden="true" className="window__control-icon" data-state="play" />
           </button>
         ) : null}
       </div>

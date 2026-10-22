@@ -5,19 +5,11 @@ import { ShowcaseVideo } from "./showcase-video";
 
 export function FurinCase() {
   return (
-    <section
-      aria-labelledby="furin-title"
-      className="case case--furin"
-      id="furin"
-    >
+    <section aria-labelledby="furin-title" className="case case--furin" id="furin">
       <div className="shell">
         <SectionRule
           index="01"
-          meta={[
-            "風鈴 · wind chime",
-            "React meta-framework",
-            "Open source · Alpha",
-          ]}
+          meta={["風鈴 · wind chime", "React meta-framework", "Open source · Alpha"]}
           name="Furin"
         />
 

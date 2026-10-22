@@ -9,10 +9,8 @@
     "build:vercel": "furin build --target vercel",
     "dev": "bun --hot src/server.ts",
     "fix": "ultracite fix",
-    "lint": "ultracite check",
     "start": "bun .furin/build/bun/server.js",
-    "tscheck": "tsc --noEmit",
-    "typegen": "furin typegen"
+    "tscheck": "tsc --noEmit"
   },
   "dependencies": {
     "@teyik0/furin": "0.8.0-alpha.0",

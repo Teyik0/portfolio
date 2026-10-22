@@ -27,15 +27,9 @@ export function TofuCase() {
           <div className="case__copy">
             <p className="case-pitch reveal">{TOFU.pitch}</p>
             <a className="built-on reveal" href="#furin">
-              <img
-                alt=""
-                height={247}
-                src="/public/media/furin-logo.webp"
-                width={148}
-              />
+              <img alt="" height={247} src="/public/media/furin-logo.webp" width={148} />
               <span>
-                Built on <strong>Furin</strong>: the framework above, dogfooded
-                in a desktop app.
+                Built on <strong>Furin</strong>: the framework above, dogfooded in a desktop app.
               </span>
               <ArrowUp className="built-on__icon size-3.5 shrink-0" />
             </a>

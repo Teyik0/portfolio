@@ -43,13 +43,7 @@ export function SellingPoints({ points }: { points: readonly SellingPoint[] }) {
   );
 }
 
-export function StackTags({
-  items,
-  label,
-}: {
-  items: readonly string[];
-  label: string;
-}) {
+export function StackTags({ items, label }: { items: readonly string[]; label: string }) {
   return (
     <ul aria-label={label} className="tags">
       {items.map((item) => (
@@ -61,24 +55,13 @@ export function StackTags({
   );
 }
 
-export function LinkRow({
-  links,
-  project,
-}: {
-  links: readonly ProjectLink[];
-  project: string;
-}) {
+export function LinkRow({ links, project }: { links: readonly ProjectLink[]; project: string }) {
   return (
     <ul aria-label={`${project} links`} className="link-row">
       {links.map(({ href, label }) => (
         <li key={href}>
           <Magnetic>
-            <a
-              className="link-pill"
-              href={href}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
+            <a className="link-pill" href={href} rel="noopener noreferrer" target="_blank">
               <ScrambleText text={label} />
               <ArrowUpRight className="link-pill__icon size-3.5" />
             </a>

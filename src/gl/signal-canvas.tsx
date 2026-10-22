@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { SECTIONS } from "../content";
-import type { SignalScene } from "./signal-scene";
+import { measureTimeline, readDim, readMorph } from "./scroll-timeline";
 
 /** requestIdleCallback with a timeout; Safari has no rIC, so fall back to a short timer. */
 function whenIdle(callback: () => void): () => void {
@@ -10,38 +10,6 @@ function whenIdle(callback: () => void): () => void {
   }
   const id = setTimeout(callback, 60);
   return () => clearTimeout(id);
-}
-
-function pickParticleCount(): number {
-  const narrow = window.matchMedia("(max-width: 767px)").matches;
-  const cores = navigator.hardwareConcurrency ?? 8;
-  const memory =
-    (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 8;
-  if (narrow || cores <= 4 || memory <= 4) {
-    return 18_000;
-  }
-  return 52_000;
-}
-
-/** Scroll window, in px, over which the field morphs into the next section's shape. */
-interface Boundary {
-  end: number;
-  start: number;
-}
-
-/**
- * Maps scroll position to a continuous shape index: 0 = index, 1 = Furin, 2 = Tofu, 3 = contact.
- * Each shape holds while its section fills the viewport; it morphs only while the next
- * section's top travels from 90% to 30% of the viewport height.
- */
-function readMorph(boundaries: Boundary[]): number {
-  const y = window.scrollY;
-  let morph = 0;
-  for (const { end, start } of boundaries) {
-    const t = Math.min(1, Math.max(0, (y - start) / (end - start)));
-    morph += t * t * (3 - 2 * t);
-  }
-  return morph;
 }
 
 /**
@@ -58,9 +26,7 @@ export function SignalCanvas() {
     if (!canvas) {
       return;
     }
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let disposed = false;
     const cleanups: Array<() => void> = [];
 
@@ -69,57 +35,45 @@ export function SignalCanvas() {
       if (disposed) {
         return;
       }
-      const active: SignalScene = createSignalScene(canvas, {
+      const scene = createSignalScene(canvas, {
         animate: !reducedMotion,
         onContextLost: () => setReady(false),
         onFirstFrame: () => setReady(true),
-        particleCount: pickParticleCount(),
       });
-      cleanups.push(() => active.dispose());
+      cleanups.push(() => scene.dispose());
 
-      let boundaries: Boundary[] = [];
-      const measure = () => {
-        const vh = window.innerHeight;
-        const maxScroll = document.documentElement.scrollHeight - vh;
-        boundaries = SECTIONS.slice(1).map(({ id }) => {
-          const el = document.getElementById(id);
-          const top = el
-            ? el.getBoundingClientRect().top + window.scrollY
-            : maxScroll;
-          const end = Math.min(maxScroll, Math.max(1, top - vh * 0.3));
-          return { end, start: Math.min(end - 1, Math.max(0, top - vh * 0.9)) };
-        });
-      };
+      const sectionIds = SECTIONS.map(({ id }) => id);
+      let timeline = measureTimeline(sectionIds);
 
       let scrollRaf = 0;
       const onScroll = () => {
         cancelAnimationFrame(scrollRaf);
-        scrollRaf = requestAnimationFrame(() =>
-          active.setMorph(readMorph(boundaries))
-        );
+        scrollRaf = requestAnimationFrame(() => {
+          scene.setMorph(readMorph(timeline));
+          scene.setDim(readDim(timeline));
+        });
       };
       const onPointerMove = (event: PointerEvent) => {
         if (event.pointerType !== "mouse" && event.pointerType !== "pen") {
           return;
         }
-        active.setPointer(
+        scene.setPointer(
           (event.clientX / window.innerWidth) * 2 - 1,
           1 - (event.clientY / window.innerHeight) * 2
         );
       };
-      const onPointerLeave = () => active.clearPointer();
+      const onPointerLeave = () => scene.clearPointer();
       const resizeObserver = new ResizeObserver(() => {
-        measure();
-        active.resize();
+        timeline = measureTimeline(sectionIds);
+        scene.resize();
         onScroll();
       });
       resizeObserver.observe(document.body);
       const visibility = new IntersectionObserver(([entry]) => {
-        active.setActive(entry?.isIntersecting ?? true);
+        scene.setActive(entry?.isIntersecting ?? true);
       });
       visibility.observe(canvas);
 
-      measure();
       onScroll();
       window.addEventListener("scroll", onScroll, { passive: true });
       window.addEventListener("pointermove", onPointerMove, { passive: true });
@@ -130,10 +84,7 @@ export function SignalCanvas() {
         visibility.disconnect();
         window.removeEventListener("scroll", onScroll);
         window.removeEventListener("pointermove", onPointerMove);
-        document.documentElement.removeEventListener(
-          "pointerleave",
-          onPointerLeave
-        );
+        document.documentElement.removeEventListener("pointerleave", onPointerLeave);
       });
     };
 
@@ -156,11 +107,7 @@ export function SignalCanvas() {
   return (
     <div aria-hidden="true" className="signal-layer">
       <div className="signal-poster" />
-      <canvas
-        className="signal-canvas"
-        data-ready={ready ? "" : undefined}
-        ref={canvasRef}
-      />
+      <canvas className="signal-canvas" data-ready={ready ? "" : undefined} ref={canvasRef} />
       <div className="signal-vignette" />
       <div className="signal-grain" />
     </div>

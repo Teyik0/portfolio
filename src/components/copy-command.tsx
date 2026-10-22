@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CheckIcon, CopyIcon } from "./icons";
 import { Magnetic } from "./magnetic";
 
@@ -14,7 +14,7 @@ export function CopyCommand({ command }: { command: string }) {
     []
   );
 
-  const copy = useCallback(async () => {
+  const copy = async () => {
     try {
       await navigator.clipboard.writeText(command);
       window.clearTimeout(timer.current);
@@ -23,7 +23,7 @@ export function CopyCommand({ command }: { command: string }) {
     } catch {
       // Clipboard blocked (insecure context or permissions): the command stays selectable.
     }
-  }, [command]);
+  };
 
   return (
     <div className="command">
@@ -35,19 +35,13 @@ export function CopyCommand({ command }: { command: string }) {
       </code>
       <Magnetic strength={0.2}>
         <button
-          aria-label={
-            copied ? "Copied to clipboard" : `Copy command: ${command}`
-          }
+          aria-label={copied ? "Copied to clipboard" : `Copy command: ${command}`}
           className="command__copy"
           data-copied={copied ? "" : undefined}
           onClick={copy}
           type="button"
         >
-          {copied ? (
-            <CheckIcon className="size-4" />
-          ) : (
-            <CopyIcon className="size-4" />
-          )}
+          {copied ? <CheckIcon className="size-4" /> : <CopyIcon className="size-4" />}
           <span aria-hidden="true" className="command__copy-label">
             {copied ? "Copied" : "Copy"}
           </span>

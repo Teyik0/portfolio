@@ -29,8 +29,8 @@ export function Contact() {
               width={240}
             />
             <p>
-              Type-safe tooling, frameworks, or the systems around models: if
-              you are building in that space, I would like to hear about it.
+              Type-safe tooling, frameworks, or the systems around models: if you are building in
+              that space, I would like to hear about it.
             </p>
           </div>
         </div>
@@ -38,12 +38,7 @@ export function Contact() {
         <ul className="channels">
           {CHANNELS.map(({ handle, href, label }) => (
             <li className="reveal" key={href}>
-              <a
-                className="channel"
-                href={href}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
+              <a className="channel" href={href} rel="noopener noreferrer" target="_blank">
                 <span className="channel__label">
                   <ScrambleText text={label} />
                 </span>
@@ -60,9 +55,7 @@ export function Contact() {
           <span className="label" suppressHydrationWarning>
             © {new Date().getFullYear()} {PROFILE.name}
           </span>
-          <span className="label hidden md:inline">
-            Built with Furin, three.js and Bun
-          </span>
+          <span className="label hidden md:inline">Built with Furin, three.js and Bun</span>
           <a className="label footer__top" href="#index">
             <ScrambleText text="Back to top" />
             <ArrowUp className="size-3" />

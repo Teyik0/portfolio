@@ -61,18 +61,12 @@ export function Hero() {
               <span aria-hidden="true" className="hero__role-sep">
                 ·
               </span>
-              <ScrambleText
-                className="text-indigo"
-                delay={900}
-                text="AI Engineer"
-                trigger="load"
-              />
+              <ScrambleText className="text-indigo" delay={900} text="AI Engineer" trigger="load" />
             </p>
             <p className="hero__bio intro" style={order(7)}>
-              I design type-safe frameworks and developer tools in TypeScript,
-              and engineer AI-powered software with the same rigor: strict types
-              from schema to UI, fast runtimes, interfaces that stay out of the
-              way.
+              I design type-safe frameworks and developer tools in TypeScript, and engineer
+              AI-powered software with the same rigor: strict types from schema to UI, fast
+              runtimes, interfaces that stay out of the way.
             </p>
             <div className="hero__links intro" style={order(8)}>
               <Magnetic>
@@ -106,9 +100,7 @@ export function Hero() {
             <ArrowDown className="size-3.5" />
             <ScrambleText text="Scroll" />
           </a>
-          <span className="label hidden sm:inline">
-            Two projects, one framework
-          </span>
+          <span className="label hidden sm:inline">Two projects, one framework</span>
           <span className="label pointer-hint">Move through the field</span>
         </div>
       </div>

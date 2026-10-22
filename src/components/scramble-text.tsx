@@ -15,12 +15,7 @@ interface ScrambleTextProps {
  * Text that decodes left to right through random glyphs. The real text is always in the DOM
  * for assistive tech (and in the SSG HTML); only the aria-hidden copy is animated.
  */
-export function ScrambleText({
-  className,
-  delay,
-  text,
-  trigger,
-}: ScrambleTextProps) {
+export function ScrambleText({ className, delay, text, trigger }: ScrambleTextProps) {
   "use no memo";
   const ref = useRef<HTMLSpanElement>(null);
   const mode = trigger ?? "hover";
