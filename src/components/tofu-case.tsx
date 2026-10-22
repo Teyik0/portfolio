@@ -20,6 +20,7 @@ export function TofuCase() {
               alt=""
               className="case-title__logo case-title__logo--tofu"
               height={192}
+              loading="lazy"
               src={`${ASSET_BASE}/media/tofu-icon.webp`}
               width={192}
             />
@@ -28,7 +29,13 @@ export function TofuCase() {
           <div className="case__copy">
             <p className="case-pitch reveal">{TOFU.pitch}</p>
             <a className="built-on reveal" href="#furin">
-              <img alt="" height={247} src={`${ASSET_BASE}/media/furin-logo.webp`} width={148} />
+              <img
+                alt=""
+                height={247}
+                loading="lazy"
+                src={`${ASSET_BASE}/media/furin-logo.webp`}
+                width={148}
+              />
               <span>
                 Built on <strong>Furin</strong>: the framework above, dogfooded in a desktop app.
               </span>

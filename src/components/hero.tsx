@@ -55,12 +55,12 @@ export function Hero() {
           </h1>
 
           <div className="hero__intro">
-            <figure className="portrait intro" style={order(5)}>
+            <figure className="portrait intro-settle" style={order(5)}>
               <span className="portrait__frame">
                 <picture>
                   <source
                     sizes={PORTRAIT_SIZES}
-                    srcSet={`${ASSET_BASE}/media/avatar-480.avif 480w, ${ASSET_BASE}/media/avatar-960.avif 960w`}
+                    srcSet={`${ASSET_BASE}/media/avatar-240.avif 240w, ${ASSET_BASE}/media/avatar-480.avif 480w, ${ASSET_BASE}/media/avatar-960.avif 960w`}
                     type="image/avif"
                   />
                   <img
@@ -72,7 +72,7 @@ export function Hero() {
                     loading="eager"
                     sizes={PORTRAIT_SIZES}
                     src={`${ASSET_BASE}/media/avatar-480.webp`}
-                    srcSet={`${ASSET_BASE}/media/avatar-480.webp 480w, ${ASSET_BASE}/media/avatar-960.webp 960w`}
+                    srcSet={`${ASSET_BASE}/media/avatar-240.webp 240w, ${ASSET_BASE}/media/avatar-480.webp 480w, ${ASSET_BASE}/media/avatar-960.webp 960w`}
                     width={480}
                   />
                 </picture>
@@ -82,24 +82,19 @@ export function Hero() {
                 <span className="portrait__caption-meta">/ Portrait</span>
               </figcaption>
             </figure>
-            <p className="hero__role intro" style={order(6)}>
-              <ScrambleText
-                className="text-amber"
-                delay={720}
-                text="TypeScript Expert"
-                trigger="load"
-              />
+            <p className="hero__role intro-settle" style={order(6)}>
+              <span className="text-amber">TypeScript Expert</span>
               <span aria-hidden="true" className="hero__role-sep">
                 ·
               </span>
-              <ScrambleText className="text-indigo" delay={900} text="AI Engineer" trigger="load" />
+              <span className="text-indigo">AI Engineer</span>
             </p>
-            <p className="hero__bio intro" style={order(7)}>
+            <p className="hero__bio intro-settle" style={order(7)}>
               I design type-safe frameworks and developer tools in TypeScript, and engineer
               AI-powered software with the same rigor: strict types from schema to UI, fast
               runtimes, interfaces that stay out of the way.
             </p>
-            <div className="hero__links intro" style={order(8)}>
+            <div className="hero__links intro-settle" style={order(8)}>
               <Magnetic>
                 <a
                   className="link-pill"

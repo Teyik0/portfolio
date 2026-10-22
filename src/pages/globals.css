@@ -940,18 +940,23 @@ main {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.window__control {
+.window__actions {
+  display: inline-flex;
+  gap: 6px;
   justify-self: end;
+}
+.window__control {
+  display: inline-flex;
+  gap: 7px;
+  align-items: center;
   padding: 2px 8px;
   font-size: 10px;
   color: var(--color-ink-dim);
   text-transform: uppercase;
   letter-spacing: 0.12em;
+  cursor: pointer;
   border: 1px solid rgb(255 255 255 / 0.12);
   border-radius: 999px;
-}
-.window__control {
-  cursor: pointer;
   transition:
     color 0.3s,
     border-color 0.3s;
@@ -959,6 +964,10 @@ main {
 .window__control:hover {
   color: var(--color-ink);
   border-color: rgb(255 255 255 / 0.3);
+}
+.window__control[aria-pressed="true"] {
+  color: var(--color-signal);
+  border-color: rgb(187 255 51 / 0.4);
 }
 
 .window--showcase {
@@ -981,11 +990,6 @@ main {
   aspect-ratio: 16 / 9;
   object-fit: cover;
   background: #050507;
-}
-.window__control {
-  display: inline-flex;
-  gap: 7px;
-  align-items: center;
 }
 .window__control-icon {
   display: inline-block;
@@ -1443,6 +1447,22 @@ main {
   animation-delay: calc(var(--i, 0) * 80ms + 160ms);
 }
 
+/* Content (role, bio, links, portrait) paints on the first frame and only settles into place:
+   no opacity fade, so text is visible immediately and is the page's earliest large paint. */
+.intro-settle {
+  animation: intro-settle 1.1s var(--ease-out-expo) both;
+  animation-delay: calc(var(--i, 0) * 80ms + 160ms);
+}
+
+@keyframes intro-settle {
+  from {
+    transform: translate3d(0, 14px, 0);
+  }
+  to {
+    transform: none;
+  }
+}
+
 @keyframes intro-rise {
   from {
     opacity: 0;
@@ -1516,6 +1536,7 @@ main {
 
 @media (prefers-reduced-motion: reduce) {
   .intro,
+  .intro-settle,
   .hero-name__char,
   .status__dot,
   .scroll-cue svg,

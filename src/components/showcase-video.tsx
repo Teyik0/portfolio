@@ -14,15 +14,19 @@ interface ShowcaseVideoProps {
 /**
  * A motion-design showcase in a window frame. It is muted, inline and looping, plays only while
  * on screen, and never autoplays under prefers-reduced-motion: those visitors get the poster and
- * a play control. Playback starts from JS (not the `autoplay` attribute) so a video below the fold
- * does not download or run before it is seen, and reduced-motion users never see a first frame move.
- * The bar button lets anyone pause it at any time (WCAG 2.2.2).
+ * a play control. Nothing downloads, not even the poster, until the frame is a viewport away
+ * (`preload="none"`), and playback starts from JS rather than the `autoplay` attribute, so
+ * reduced-motion users never see a first frame move.
+ * The bar buttons let anyone pause it at any time (WCAG 2.2.2) and opt into its soundtrack;
+ * leaving the viewport pauses it and keeps its sound setting.
  */
 export function ShowcaseVideo({ label, path, title }: ShowcaseVideoProps) {
   "use no memo";
   const ref = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [near, setNear] = useState(false);
+  const [muted, setMuted] = useState(true);
   const userPaused = useRef(false);
 
   useEffect(() => {
@@ -34,8 +38,10 @@ export function ShowcaseVideo({ label, path, title }: ShowcaseVideoProps) {
     setReducedMotion(reduced);
     const onPlay = () => setPlaying(true);
     const onPause = () => setPlaying(false);
+    const onVolume = () => setMuted(video.muted);
     video.addEventListener("play", onPlay);
     video.addEventListener("pause", onPause);
+    video.addEventListener("volumechange", onVolume);
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -55,10 +61,23 @@ export function ShowcaseVideo({ label, path, title }: ShowcaseVideoProps) {
       { threshold: 0.3 }
     );
     observer.observe(video);
+    // The frame sits below the fold: fetch its poster only once it is a viewport away.
+    const proximity = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setNear(true);
+          proximity.disconnect();
+        }
+      },
+      { rootMargin: "100% 0px" }
+    );
+    proximity.observe(video);
     return () => {
       observer.disconnect();
+      proximity.disconnect();
       video.removeEventListener("play", onPlay);
       video.removeEventListener("pause", onPause);
+      video.removeEventListener("volumechange", onVolume);
     };
   }, []);
 
@@ -78,6 +97,21 @@ export function ShowcaseVideo({ label, path, title }: ShowcaseVideoProps) {
     }
   };
 
+  // Autoplay must start muted; sound is opt-in, and only one showcase plays sound at a time.
+  const toggleSound = () => {
+    const video = ref.current;
+    if (!video) {
+      return;
+    }
+    if (video.muted) {
+      for (const other of document.querySelectorAll("video")) {
+        other.muted = other !== video;
+      }
+    } else {
+      video.muted = true;
+    }
+  };
+
   const action = playing ? "Pause" : "Play";
 
   return (
@@ -89,19 +123,32 @@ export function ShowcaseVideo({ label, path, title }: ShowcaseVideoProps) {
           <i />
         </span>
         <span className="window__title">{title}</span>
-        <button
-          aria-label={`${action} the ${title} video`}
-          className="window__control"
-          onClick={toggle}
-          type="button"
-        >
-          <span
-            aria-hidden="true"
-            className="window__control-icon"
-            data-state={playing ? "pause" : "play"}
-          />
-          {action}
-        </button>
+        <span className="window__actions">
+          <button
+            aria-label={`${action} the ${title} video`}
+            className="window__control"
+            onClick={toggle}
+            type="button"
+          >
+            <span
+              aria-hidden="true"
+              className="window__control-icon"
+              data-state={playing ? "pause" : "play"}
+            />
+            {action}
+          </button>
+          <button
+            aria-label={
+              muted ? `Turn on the ${title} video sound` : `Turn off the ${title} video sound`
+            }
+            aria-pressed={!muted}
+            className="window__control"
+            onClick={toggleSound}
+            type="button"
+          >
+            {muted ? "Sound off" : "Sound on"}
+          </button>
+        </span>
       </figcaption>
       <div className="window__stage">
         <video
@@ -111,8 +158,8 @@ export function ShowcaseVideo({ label, path, title }: ShowcaseVideoProps) {
           loop
           muted
           playsInline
-          poster={`${path}.jpg`}
-          preload="metadata"
+          poster={near ? `${path}.jpg` : undefined}
+          preload="none"
           ref={ref}
           width={1920}
         >

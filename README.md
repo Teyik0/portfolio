@@ -12,8 +12,9 @@ particles that morph into a vortex, a wind chime, a peer swarm and a waveform as
 - **Furin** `0.8.0-alpha` on **Elysia** `2.0.0-beta.32` and **Bun** 1.4: SSG, React Server
   Components, static export.
 - **React 19**, **Tailwind CSS v4** via `bun-plugin-tailwind`.
-- **WebGL2** with hand-written GLSL (no 3D library), booted after load on idle.
-- **Lenis** smooth scrolling (disabled under `prefers-reduced-motion`).
+- **WebGL2** with hand-written GLSL (no 3D library), booted on the first interaction or 5 s after
+  load, so it never competes with the initial render.
+- **Lenis** smooth scrolling, fetched on idle (disabled under `prefers-reduced-motion`).
 - Self-hosted **Tektur** (display) and **Fira Code** (OFL, see `public/fonts/LICENSE.md`).
 
 ## Rendering

@@ -21,6 +21,7 @@ export function FurinCase() {
               alt=""
               className="case-title__logo case-title__logo--furin"
               height={247}
+              loading="lazy"
               src={`${ASSET_BASE}/media/furin-logo.webp`}
               width={148}
             />

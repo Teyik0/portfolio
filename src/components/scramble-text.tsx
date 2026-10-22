@@ -6,21 +6,17 @@ const GLYPHS = "!<>-_/[]{}=+*^?#01ABCDEFXYZ";
 
 interface ScrambleTextProps {
   className?: string;
-  /** Delay in ms before decoding when `trigger` is "load". */
-  delay?: number;
   text: string;
-  /** "hover": decode when the closest link/button is hovered or focused. "load": once, on mount. */
-  trigger?: "hover" | "load";
 }
 
 /**
- * Text that decodes left to right through random glyphs. The real text is always in the DOM
- * for assistive tech (and in the SSG HTML); only the aria-hidden copy is animated.
+ * Text that decodes left to right through random glyphs when the closest link or button is
+ * hovered or focused. The real text is always in the DOM for assistive tech (and in the SSG
+ * HTML); only the aria-hidden copy is animated.
  */
-export function ScrambleText({ className, delay, text, trigger }: ScrambleTextProps) {
+export function ScrambleText({ className, text }: ScrambleTextProps) {
   "use no memo";
   const ref = useRef<HTMLSpanElement>(null);
-  const mode = trigger ?? "hover";
 
   useEffect(() => {
     const el = ref.current;
@@ -51,14 +47,6 @@ export function ScrambleText({ className, delay, text, trigger }: ScrambleTextPr
       raf = requestAnimationFrame(tick);
     };
 
-    if (mode === "load") {
-      const timer = window.setTimeout(run, delay ?? 0);
-      return () => {
-        window.clearTimeout(timer);
-        cancelAnimationFrame(raf);
-        el.textContent = text;
-      };
-    }
     const host = el.closest<HTMLElement>("a, button") ?? el;
     host.addEventListener("pointerenter", run);
     host.addEventListener("focus", run);
@@ -68,7 +56,7 @@ export function ScrambleText({ className, delay, text, trigger }: ScrambleTextPr
       cancelAnimationFrame(raf);
       el.textContent = text;
     };
-  }, [delay, mode, text]);
+  }, [text]);
 
   return (
     <span className={className}>

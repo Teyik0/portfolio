@@ -2,24 +2,27 @@
 
 import { useEffect, useRef, useState } from "react";
 import { SECTIONS } from "../content";
+import { whenIdle } from "../lib/when-idle";
 import { measureTimeline, readDim, readMorph } from "./scroll-timeline";
 // Imported statically: the raw-WebGL2 scene is small and touches no browser globals at module
 // scope, so shipping it in the island chunk saves a network round trip.
 import { createSignalScene } from "./signal-scene";
 
-/** requestIdleCallback with a timeout; Safari has no rIC, so fall back to a short timer. */
-function whenIdle(callback: () => void): () => void {
-  if ("requestIdleCallback" in window) {
-    const id = requestIdleCallback(callback, { timeout: 400 });
-    return () => cancelIdleCallback(id);
-  }
-  const id = setTimeout(callback, 60);
-  return () => clearTimeout(id);
-}
+/** Any of these means a person is here: start the field right away. */
+const WAKE_EVENTS = [
+  "pointermove",
+  "pointerdown",
+  "keydown",
+  "wheel",
+  "touchstart",
+  "scroll",
+] as const;
+/** Otherwise the field starts this long after the load event. */
+const BOOT_FALLBACK_MS = 5000;
 
 /**
  * Fixed, client-only WebGL layer. SSR (and visitors without WebGL) get the CSS poster: the same
- * black, haze and glow, minus the particles. WebGL boots only once the page has loaded and idled.
+ * black, haze and glow, minus the particles. WebGL boots on the first interaction or after load.
  */
 export function SignalCanvas() {
   "use no memo";
@@ -109,27 +112,48 @@ export function SignalCanvas() {
       });
     };
 
-    // Let the page finish loading and go idle before touching WebGL, so compiling shaders and
-    // the first frames never compete with hydration or the critical requests.
+    // Boot on the first sign of a user, or a few seconds after load, whichever comes first.
+    // Shader compilation and the first frames then never compete with the initial load, which
+    // matters most on devices without a GPU; the CSS poster holds the look until then.
     let cancelIdle = () => {
       /* nothing scheduled yet */
     };
+    let fallbackTimer = 0;
+    let started = false;
     const start = () => {
+      if (started) {
+        return;
+      }
+      started = true;
+      window.clearTimeout(fallbackTimer);
+      for (const type of WAKE_EVENTS) {
+        window.removeEventListener(type, start);
+      }
       cancelIdle = whenIdle(() => {
         boot().catch(() => {
           // Shader link failed: the CSS poster under the canvas is the intended fallback.
         });
-      });
+      }, 400);
     };
+    const armFallback = () => {
+      fallbackTimer = window.setTimeout(start, BOOT_FALLBACK_MS);
+    };
+    for (const type of WAKE_EVENTS) {
+      window.addEventListener(type, start, { once: true, passive: true });
+    }
     if (document.readyState === "complete") {
-      start();
+      armFallback();
     } else {
-      window.addEventListener("load", start, { once: true });
+      window.addEventListener("load", armFallback, { once: true });
     }
 
     return () => {
       disposed = true;
-      window.removeEventListener("load", start);
+      window.removeEventListener("load", armFallback);
+      window.clearTimeout(fallbackTimer);
+      for (const type of WAKE_EVENTS) {
+        window.removeEventListener(type, start);
+      }
       cancelIdle();
       for (const cleanup of cleanups.reverse()) {
         cleanup();

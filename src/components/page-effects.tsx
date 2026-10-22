@@ -1,11 +1,12 @@
 "use client";
 
-import Lenis from "lenis";
 import { useEffect } from "react";
+import { whenIdle } from "../lib/when-idle";
 
 /**
  * Page-wide behaviour with no markup of its own:
- * - Lenis smooth scrolling (skipped under prefers-reduced-motion, so native scroll is untouched);
+ * - Lenis smooth scrolling, fetched on idle so it never weighs on the first load (skipped under
+ *   prefers-reduced-motion, so native scroll is untouched);
  * - one IntersectionObserver that reveals every `.reveal` block as it enters the viewport.
  */
 export function PageEffects() {
@@ -28,18 +29,31 @@ export function PageEffects() {
       observer.observe(el);
     }
 
-    const lenis = reducedMotion
-      ? null
-      : new Lenis({
-          anchors: true,
-          autoRaf: true,
-          lerp: 0.09,
-          wheelMultiplier: 0.95,
-        });
+    let disposed = false;
+    let destroyLenis = () => {
+      /* not started */
+    };
+    const cancelIdle = reducedMotion
+      ? destroyLenis
+      : whenIdle(async () => {
+          const { default: Lenis } = await import("lenis");
+          if (disposed) {
+            return;
+          }
+          const lenis = new Lenis({
+            anchors: true,
+            autoRaf: true,
+            lerp: 0.09,
+            wheelMultiplier: 0.95,
+          });
+          destroyLenis = () => lenis.destroy();
+        }, 2000);
 
     return () => {
+      disposed = true;
       observer.disconnect();
-      lenis?.destroy();
+      cancelIdle();
+      destroyLenis();
     };
   }, []);
 
