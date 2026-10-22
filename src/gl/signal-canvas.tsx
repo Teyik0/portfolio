@@ -1,11 +1,16 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 import { SECTIONS } from "../content";
 import { measureTimeline, readDim, readMorph } from "./scroll-timeline";
+// Imported statically: the raw-WebGL2 scene is small and touches no browser globals at module
+// scope, so shipping it in the island chunk saves a network round trip.
+import { createSignalScene } from "./signal-scene";
 
 /** requestIdleCallback with a timeout; Safari has no rIC, so fall back to a short timer. */
 function whenIdle(callback: () => void): () => void {
   if ("requestIdleCallback" in window) {
-    const id = requestIdleCallback(callback, { timeout: 600 });
+    const id = requestIdleCallback(callback, { timeout: 400 });
     return () => cancelIdleCallback(id);
   }
   const id = setTimeout(callback, 60);
@@ -14,7 +19,7 @@ function whenIdle(callback: () => void): () => void {
 
 /**
  * Fixed, client-only WebGL layer. SSR (and visitors without WebGL) get the CSS poster: the same
- * black, haze and glow, minus the particles. three.js is fetched only after hydration, on idle.
+ * black, haze and glow, minus the particles. WebGL boots only once the page has loaded and idled.
  */
 export function SignalCanvas() {
   "use no memo";
@@ -31,15 +36,18 @@ export function SignalCanvas() {
     const cleanups: Array<() => void> = [];
 
     const boot = async () => {
-      const { createSignalScene } = await import("./signal-scene");
-      if (disposed) {
-        return;
-      }
-      const scene = createSignalScene(canvas, {
+      const scene = await createSignalScene(canvas, {
         animate: !reducedMotion,
         onContextLost: () => setReady(false),
         onFirstFrame: () => setReady(true),
       });
+      if (!scene) {
+        return;
+      }
+      if (disposed) {
+        scene.dispose();
+        return;
+      }
       cleanups.push(() => scene.dispose());
 
       const sectionIds = SECTIONS.map(({ id }) => id);
@@ -101,15 +109,27 @@ export function SignalCanvas() {
       });
     };
 
-    // Let hydration and the first paint finish before downloading three.js and touching WebGL.
-    const cancelIdle = whenIdle(() => {
-      boot().catch(() => {
-        // WebGL unavailable or the chunk failed to load: the CSS poster is the intended fallback.
+    // Let the page finish loading and go idle before touching WebGL, so compiling shaders and
+    // the first frames never compete with hydration or the critical requests.
+    let cancelIdle = () => {
+      /* nothing scheduled yet */
+    };
+    const start = () => {
+      cancelIdle = whenIdle(() => {
+        boot().catch(() => {
+          // Shader link failed: the CSS poster under the canvas is the intended fallback.
+        });
       });
-    });
+    };
+    if (document.readyState === "complete") {
+      start();
+    } else {
+      window.addEventListener("load", start, { once: true });
+    }
 
     return () => {
       disposed = true;
+      window.removeEventListener("load", start);
       cancelIdle();
       for (const cleanup of cleanups.reverse()) {
         cleanup();

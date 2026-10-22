@@ -1,3 +1,5 @@
+"use client";
+
 import { type CSSProperties, useEffect, useRef, useState } from "react";
 import { PROFILE, SECTIONS, type SectionId } from "../content";
 import { BrandMark, GitHubIcon } from "./icons";

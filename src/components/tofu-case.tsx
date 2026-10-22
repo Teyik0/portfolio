@@ -1,4 +1,5 @@
 import { TOFU } from "../content";
+import { ASSET_BASE } from "../site";
 import { LinkRow, SectionRule, SellingPoints, StackTags } from "./case-study";
 import { ArrowUp } from "./icons";
 import { ShowcaseVideo } from "./showcase-video";
@@ -19,7 +20,7 @@ export function TofuCase() {
               alt=""
               className="case-title__logo case-title__logo--tofu"
               height={192}
-              src="/public/media/tofu-icon.webp"
+              src={`${ASSET_BASE}/media/tofu-icon.webp`}
               width={192}
             />
             <span className="case-title__word">Tofu</span>
@@ -27,7 +28,7 @@ export function TofuCase() {
           <div className="case__copy">
             <p className="case-pitch reveal">{TOFU.pitch}</p>
             <a className="built-on reveal" href="#furin">
-              <img alt="" height={247} src="/public/media/furin-logo.webp" width={148} />
+              <img alt="" height={247} src={`${ASSET_BASE}/media/furin-logo.webp`} width={148} />
               <span>
                 Built on <strong>Furin</strong>: the framework above, dogfooded in a desktop app.
               </span>
@@ -38,7 +39,7 @@ export function TofuCase() {
           <div className="case__media case__media--stacked reveal">
             <ShowcaseVideo
               label="Tofu showcase: search, plugins, AniList tracking and live transfer stats in motion"
-              name="tofu-showcase"
+              path={`${ASSET_BASE}/videos/tofu-showcase`}
               title="tofu — showcase"
             />
             <figure className="window window--inset">
@@ -55,7 +56,7 @@ export function TofuCase() {
                 alt="Tofu's AniList view: a grid of tracked anime with search, genre, year and season filters."
                 height={720}
                 loading="lazy"
-                src="/public/media/tofu-demo.webp"
+                src={`${ASSET_BASE}/media/tofu-demo.webp`}
                 width={1280}
               />
             </figure>

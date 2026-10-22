@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import { PROFILE } from "../content";
+import { ASSET_BASE } from "../site";
 import { ArrowDown, ArrowUpRight } from "./icons";
 import { Magnetic } from "./magnetic";
 import { ScrambleText } from "./scramble-text";
@@ -59,7 +60,7 @@ export function Hero() {
                 <picture>
                   <source
                     sizes={PORTRAIT_SIZES}
-                    srcSet="/public/media/avatar-480.avif 480w, /public/media/avatar-960.avif 960w"
+                    srcSet={`${ASSET_BASE}/media/avatar-480.avif 480w, ${ASSET_BASE}/media/avatar-960.avif 960w`}
                     type="image/avif"
                   />
                   <img
@@ -70,8 +71,8 @@ export function Hero() {
                     height={600}
                     loading="eager"
                     sizes={PORTRAIT_SIZES}
-                    src="/public/media/avatar-480.webp"
-                    srcSet="/public/media/avatar-480.webp 480w, /public/media/avatar-960.webp 960w"
+                    src={`${ASSET_BASE}/media/avatar-480.webp`}
+                    srcSet={`${ASSET_BASE}/media/avatar-480.webp 480w, ${ASSET_BASE}/media/avatar-960.webp 960w`}
                     width={480}
                   />
                 </picture>

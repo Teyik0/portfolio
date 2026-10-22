@@ -1,7 +1,6 @@
 /**
- * GLSL for the signal field. Written in GLSL ES 1.0 style; three.js upgrades it to
- * `#version 300 es` on WebGL2, which is what allows dynamic indexing of the node/edge
- * uniform arrays in the swarm shape.
+ * GLSL ES 3.00 for the signal field (WebGL2). Dynamic indexing of the node/edge uniform arrays
+ * in the swarm shape relies on ES 3.00.
  */
 
 export const NODE_COUNT = 13;
@@ -76,12 +75,16 @@ vec3 curl(vec3 p) {
 }
 `;
 
-export const PARTICLE_VERTEX = /* glsl */ `
+export const PARTICLE_VERTEX = /* glsl */ `#version 300 es
+precision highp float;
+precision highp int;
 #define PI 3.14159265
 #define TAU 6.28318531
 #define NODE_COUNT ${NODE_COUNT}
 #define EDGE_COUNT ${EDGE_COUNT}
 
+uniform mat4 uView;
+uniform mat4 uProj;
 uniform float uTime;
 uniform float uMorph;
 uniform float uIntro;
@@ -98,11 +101,11 @@ uniform vec4 uLayout[4];
 uniform vec3 uNodes[NODE_COUNT];
 uniform vec2 uEdges[EDGE_COUNT];
 
-attribute vec4 aRandA;
-attribute vec4 aRandB;
+in vec4 aRandA;
+in vec4 aRandB;
 
-varying vec3 vColor;
-varying float vAlpha;
+out vec3 vColor;
+out float vAlpha;
 
 ${NOISE}
 
@@ -266,14 +269,14 @@ void main() {
   p = q + c2 * amp * life * 0.5;
   float speed = length(c1 + c2) * amp * 0.5;
 
-  vec4 mv = modelViewMatrix * vec4(p, 1.0);
+  vec4 mv = uView * vec4(p, 1.0);
   float depth = -mv.z;
   vec2 pointerView = uPointer * vec2(uAspect, 1.0) * uTanHalfFov * depth;
   vec2 d = pointerView - mv.xy;
   float fall = exp(-dot(d, d) / 0.8) * uPointerActive;
   mv.xy -= d * fall * 0.42;
   mv.xy += vec2(-d.y, d.x) * fall * 0.3;
-  gl_Position = projectionMatrix * mv;
+  gl_Position = uProj * mv;
 
   float size = uSize * (0.45 + aRandB.x * aRandB.x * 1.7) * (1.0 + fall * 1.1 + transit * 0.3);
   gl_PointSize = max(size * uPixelRatio * (10.0 / depth), 1.0);
@@ -293,34 +296,40 @@ void main() {
 }
 `;
 
-export const PARTICLE_FRAGMENT = /* glsl */ `
-varying vec3 vColor;
-varying float vAlpha;
+export const PARTICLE_FRAGMENT = /* glsl */ `#version 300 es
+precision mediump float;
+in vec3 vColor;
+in float vAlpha;
+out vec4 outColor;
 
 void main() {
   vec2 c = gl_PointCoord - 0.5;
   float d2 = dot(c, c);
   float a = (exp(-d2 * 30.0) * 0.85 + exp(-d2 * 9.0) * 0.15) * vAlpha;
   if (a < 0.003) discard;
-  gl_FragColor = vec4(vColor, a);
+  outColor = vec4(vColor, a);
 }
 `;
 
-export const HAZE_VERTEX = /* glsl */ `
-varying vec2 vUv;
+/** Attribute-less full-screen triangle; vUv spans 0..1 over the viewport. */
+export const HAZE_VERTEX = /* glsl */ `#version 300 es
+out vec2 vUv;
 void main() {
-  vUv = uv;
-  gl_Position = vec4(position.xy, 0.0, 1.0);
+  vec2 corner = vec2(float((gl_VertexID << 1) & 2), float(gl_VertexID & 2));
+  vUv = corner;
+  gl_Position = vec4(corner * 2.0 - 1.0, 0.0, 1.0);
 }
 `;
 
 /** Lavender-indigo volumetric haze: the old site's central radial glow, now drifting with the field. */
-export const HAZE_FRAGMENT = /* glsl */ `
+export const HAZE_FRAGMENT = /* glsl */ `#version 300 es
+precision highp float;
 uniform vec2 uCenter;
 uniform float uAspect;
 uniform float uTime;
 uniform float uStrength;
-varying vec2 vUv;
+in vec2 vUv;
+out vec4 outColor;
 
 float hash(vec2 p) { return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }
 
@@ -336,6 +345,6 @@ void main() {
   vec2 v = vUv - 0.5;
   col *= 1.0 - dot(v, v) * 0.9;
   col += (hash(gl_FragCoord.xy + fract(uTime)) - 0.5) / 255.0;
-  gl_FragColor = vec4(max(col, 0.0), 1.0);
+  outColor = vec4(max(col, 0.0), 1.0);
 }
 `;

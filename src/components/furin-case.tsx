@@ -1,4 +1,5 @@
 import { FURIN } from "../content";
+import { ASSET_BASE } from "../site";
 import { LinkRow, SectionRule, SellingPoints, StackTags } from "./case-study";
 import { CopyCommand } from "./copy-command";
 import { ShowcaseVideo } from "./showcase-video";
@@ -20,7 +21,7 @@ export function FurinCase() {
               alt=""
               className="case-title__logo case-title__logo--furin"
               height={247}
-              src="/public/media/furin-logo.webp"
+              src={`${ASSET_BASE}/media/furin-logo.webp`}
               width={148}
             />
           </h2>
@@ -35,7 +36,7 @@ export function FurinCase() {
           <div className="case__media reveal">
             <ShowcaseVideo
               label="Furin showcase: file-based routes, rendering modes and type inference in motion"
-              name="furin-showcase"
+              path={`${ASSET_BASE}/videos/furin-showcase`}
               title="furin — showcase"
             />
           </div>

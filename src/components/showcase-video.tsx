@@ -1,10 +1,12 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 
 interface ShowcaseVideoProps {
   /** Accessible description of what the video shows. */
   label: string;
-  /** Basename under /public/videos: `<name>.webm`, `<name>.mp4` and `<name>.jpg` (poster). */
-  name: string;
+  /** URL without extension: `<path>.webm`, `<path>.mp4` and `<path>.jpg` (poster). */
+  path: string;
   /** Shown in the window title bar. */
   title: string;
 }
@@ -16,7 +18,7 @@ interface ShowcaseVideoProps {
  * does not download or run before it is seen, and reduced-motion users never see a first frame move.
  * The bar button lets anyone pause it at any time (WCAG 2.2.2).
  */
-export function ShowcaseVideo({ label, name, title }: ShowcaseVideoProps) {
+export function ShowcaseVideo({ label, path, title }: ShowcaseVideoProps) {
   "use no memo";
   const ref = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
@@ -109,13 +111,13 @@ export function ShowcaseVideo({ label, name, title }: ShowcaseVideoProps) {
           loop
           muted
           playsInline
-          poster={`/public/videos/${name}.jpg`}
+          poster={`${path}.jpg`}
           preload="metadata"
           ref={ref}
           width={1920}
         >
-          <source src={`/public/videos/${name}.webm`} type="video/webm" />
-          <source src={`/public/videos/${name}.mp4`} type="video/mp4" />
+          <source src={`${path}.webm`} type="video/webm" />
+          <source src={`${path}.mp4`} type="video/mp4" />
         </video>
         {reducedMotion && !playing ? (
           <button

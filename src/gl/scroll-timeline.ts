@@ -1,5 +1,5 @@
 /**
- * Maps page scroll to the signal field's state. Plain DOM math, no React and no three.js,
+ * Maps page scroll to the signal field's state. Plain DOM math, no React and no WebGL,
  * so the component that wires it stays a thin mount.
  */
 

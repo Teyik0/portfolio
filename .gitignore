@@ -1,6 +1,5 @@
 node_modules/
 .furin/
-.vercel/
 dist/
 *.local
 .env*

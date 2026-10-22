@@ -1,4 +1,5 @@
 import { PROFILE } from "../content";
+import { ASSET_BASE } from "../site";
 import { SectionRule } from "./case-study";
 import { ArrowUp, ArrowUpRight } from "./icons";
 import { Magnetic } from "./magnetic";
@@ -36,8 +37,8 @@ export function Contact() {
               height={200}
               loading="lazy"
               sizes="64px"
-              src="/public/media/avatar-160.webp"
-              srcSet="/public/media/avatar-160.webp 160w, /public/media/avatar-480.webp 480w"
+              src={`${ASSET_BASE}/media/avatar-160.webp`}
+              srcSet={`${ASSET_BASE}/media/avatar-160.webp 160w, ${ASSET_BASE}/media/avatar-480.webp 480w`}
               width={160}
             />
             <p className="operator__note">
@@ -81,10 +82,10 @@ export function Contact() {
         </div>
 
         <footer className="footer">
-          <span className="label" suppressHydrationWarning>
+          <span className="label">
             © {new Date().getFullYear()} {PROFILE.name}
           </span>
-          <span className="label hidden md:inline">Built with Furin, three.js and Bun</span>
+          <span className="label hidden md:inline">Built with Furin, WebGL2 and Bun</span>
           <a className="label footer__top" href="#index">
             <ScrambleText text="Back to top" />
             <ArrowUp className="size-3" />
