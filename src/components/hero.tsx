@@ -4,6 +4,9 @@ import { ArrowDown, ArrowUpRight } from "./icons";
 import { Magnetic } from "./magnetic";
 import { ScrambleText } from "./scramble-text";
 
+/** Rendered width of the hero portrait, matching the .hero__intro grid column. */
+const PORTRAIT_SIZES = "(min-width: 1024px) 172px, 92px";
+
 const order = (i: number) => ({ "--i": i }) as CSSProperties;
 
 /** Splits a word into masked letters that rise in sequence on page load. */
@@ -51,6 +54,33 @@ export function Hero() {
           </h1>
 
           <div className="hero__intro">
+            <figure className="portrait intro" style={order(5)}>
+              <span className="portrait__frame">
+                <picture>
+                  <source
+                    sizes={PORTRAIT_SIZES}
+                    srcSet="/public/media/avatar-480.avif 480w, /public/media/avatar-960.avif 960w"
+                    type="image/avif"
+                  />
+                  <img
+                    alt={`Illustrated portrait of ${PROFILE.name}: round gold glasses and a dark hoodie with cyan piping, against a neon city at night.`}
+                    className="portrait__img"
+                    decoding="async"
+                    fetchPriority="high"
+                    height={600}
+                    loading="eager"
+                    sizes={PORTRAIT_SIZES}
+                    src="/public/media/avatar-480.webp"
+                    srcSet="/public/media/avatar-480.webp 480w, /public/media/avatar-960.webp 960w"
+                    width={480}
+                  />
+                </picture>
+              </span>
+              <figcaption className="portrait__caption">
+                <span>{PROFILE.handle}</span>
+                <span className="portrait__caption-meta">/ Portrait</span>
+              </figcaption>
+            </figure>
             <p className="hero__role intro" style={order(6)}>
               <ScrambleText
                 className="text-amber"

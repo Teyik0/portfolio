@@ -74,7 +74,7 @@ export const route = defineRoute("/")
           "@context": "https://schema.org",
           "@type": "Person",
           alternateName: PROFILE.handle,
-          image: `${siteUrl}/public/media/avatar.webp`,
+          image: `${siteUrl}/public/media/avatar-960.webp`,
           jobTitle: PROFILE.role,
           name: PROFILE.name,
           sameAs: [PROFILE.github, PROFILE.linkedin],

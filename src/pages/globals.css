@@ -442,16 +442,113 @@ main {
   }
 }
 
+/* Portrait beside the role on phones; a tall card beside role, bio and links on desktop. */
 .hero__intro {
   display: grid;
-  gap: 20px;
+  grid-template-areas:
+    "portrait role"
+    "bio bio"
+    "links links";
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 20px 18px;
+  align-items: center;
   max-width: 34rem;
   margin-top: 36px;
+}
+.portrait {
+  grid-area: portrait;
+  align-self: start;
+  padding: 5px;
+  margin: 0;
+  background: rgb(8 8 12 / 0.55);
+  border: 1px solid rgb(255 255 255 / 0.14);
+  border-radius: 14px;
+  box-shadow:
+    0 0 0 1px rgb(0 0 0 / 0.6),
+    0 0 46px -12px rgb(62 240 255 / 0.4),
+    0 28px 70px -36px rgb(187 255 51 / 0.35);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+.portrait__frame {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 9px;
+}
+.portrait__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Unfiltered at rest; on hover, scanlines and a holographic sweep pass over the face. */
+.portrait__frame::before,
+.portrait__frame::after {
+  position: absolute;
+  pointer-events: none;
+  content: "";
+  opacity: 0;
+}
+.portrait__frame::before {
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgb(0 0 0 / 0.3) 0 1px,
+    transparent 1px 3px
+  );
+  transition: opacity 0.5s;
+}
+.portrait__frame::after {
+  inset: -40%;
+  background: linear-gradient(
+    115deg,
+    transparent 36%,
+    rgb(62 240 255 / 0.3) 45%,
+    rgb(168 85 247 / 0.22) 50%,
+    rgb(187 255 51 / 0.26) 55%,
+    transparent 64%
+  );
+  mix-blend-mode: screen;
+  transform: translateX(-55%);
+  transition:
+    transform 1.3s var(--ease-out-expo),
+    opacity 0.4s;
+}
+.portrait:hover .portrait__frame::before {
+  opacity: 1;
+}
+.portrait:hover .portrait__frame::after {
+  opacity: 1;
+  transform: translateX(55%);
+}
+.portrait__caption {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  padding: 8px 3px 1px;
+  font-size: 10px;
+  color: var(--color-ink-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+.portrait__caption > :first-child {
+  color: var(--color-ink);
+}
+@media (max-width: 1023px) {
+  .portrait__caption-meta,
+  .hero__role-sep {
+    display: none;
+  }
+  .hero__role {
+    flex-direction: column;
+  }
 }
 
 .hero__role {
   display: flex;
   flex-wrap: wrap;
+  grid-area: role;
   gap: 4px 12px;
   align-items: baseline;
   margin: 0;
@@ -465,6 +562,7 @@ main {
 }
 
 .hero__bio {
+  grid-area: bio;
   margin: 0;
   font-size: clamp(0.98rem, 1.1vw, 1.08rem);
   font-weight: 400;
@@ -477,6 +575,7 @@ main {
 .hero__links {
   display: flex;
   flex-wrap: wrap;
+  grid-area: links;
   gap: 10px;
 }
 
@@ -484,13 +583,22 @@ main {
   .hero__body {
     display: grid;
     grid-template-rows: 1fr auto;
+    row-gap: 28px;
     justify-content: stretch;
-    padding-top: clamp(36px, 7vh, 72px);
+    padding-top: clamp(28px, 5vh, 56px);
   }
   .hero__intro {
+    grid-template-areas:
+      "portrait role"
+      "portrait bio"
+      "portrait links";
+    grid-template-columns: 172px minmax(0, 1fr);
     grid-row: 1;
+    column-gap: 32px;
+    align-items: start;
     align-self: start;
-    width: min(32rem, 40%);
+    width: min(48rem, 54%);
+    max-width: none;
     margin: 0;
   }
   .hero-name {
@@ -1374,6 +1482,21 @@ main {
     .case--tofu .case-title__word {
       animation-name: drift-reverse;
     }
+    /* Gentle parallax: the face drifts inside its frame as the hero scrolls away. */
+    .portrait__img {
+      animation: portrait-drift linear both;
+      animation-timeline: view();
+      animation-range: contain 0% exit 100%;
+    }
+  }
+}
+
+@keyframes portrait-drift {
+  from {
+    transform: scale(1.08) translateY(1.5%);
+  }
+  to {
+    transform: scale(1.08) translateY(-4%);
   }
 }
 
@@ -1410,6 +1533,8 @@ main {
     transition: none;
   }
   .magnetic,
+  .portrait__frame::before,
+  .portrait__frame::after,
   .station::before,
   .station__label,
   .tuner__needle {

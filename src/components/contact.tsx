@@ -33,10 +33,12 @@ export function Contact() {
             <img
               alt={`Illustrated portrait of ${PROFILE.name}`}
               className="operator__avatar"
-              height={263}
+              height={200}
               loading="lazy"
-              src="/public/media/avatar.webp"
-              width={240}
+              sizes="64px"
+              src="/public/media/avatar-160.webp"
+              srcSet="/public/media/avatar-160.webp 160w, /public/media/avatar-480.webp 480w"
+              width={160}
             />
             <p className="operator__note">
               Type-safe tooling, frameworks, or the systems around models: if you are building in
