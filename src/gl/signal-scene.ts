@@ -43,6 +43,8 @@ export interface SignalScene {
   setDim: (target: number) => void;
   setMorph: (target: number) => void;
   setPointer: (ndcX: number, ndcY: number) => void;
+  /** 0..1: lock the contact waveform into a clean sine (a channel is hovered or focused). */
+  setTune: (target: number) => void;
 }
 
 const FOV = 35;
@@ -192,6 +194,7 @@ export function createSignalScene(
     uSize: { value: 2.4 },
     uTanHalfFov: { value: TAN_HALF_FOV },
     uTime: { value: options.animate ? 0 : STATIC_TIME },
+    uTune: { value: 0 },
   };
   const particleMaterial = new ShaderMaterial({
     blending: AdditiveBlending,
@@ -234,6 +237,8 @@ export function createSignalScene(
   let morphTarget = 0;
   let dim = 0;
   let dimTarget = 0;
+  let tune = 0;
+  let tuneTarget = 0;
   // Phones put text and field closer together: keep the field quieter there, and dim harder.
   const baseOpacity = isNarrow ? 0.72 : 1;
   const maxDim = isNarrow ? 0.85 : 0.5;
@@ -280,6 +285,7 @@ export function createSignalScene(
   function draw(): void {
     particleUniforms.uTime.value = elapsed;
     particleUniforms.uMorph.value = morph;
+    particleUniforms.uTune.value = tune;
     particleUniforms.uOpacity.value = baseOpacity * (1 - dim * maxDim);
     hazeUniforms.uTime.value = elapsed;
     updateHaze();
@@ -298,6 +304,7 @@ export function createSignalScene(
     particleUniforms.uIntro.value = Math.min(1, (last - introStart) / 1000 / INTRO_SECONDS);
     morph += (morphTarget - morph) * (1 - Math.exp(-dt * 2.6));
     dim += (dimTarget - dim) * (1 - Math.exp(-dt * 4));
+    tune += (tuneTarget - tune) * (1 - Math.exp(-dt * 5));
     pointer.active += (pointer.target - pointer.active) * (1 - Math.exp(-dt * 4));
     pointer.x += (pointer.tx - pointer.x) * (1 - Math.exp(-dt * 10));
     pointer.y += (pointer.ty - pointer.y) * (1 - Math.exp(-dt * 10));
@@ -415,6 +422,13 @@ export function createSignalScene(
       pointer.tx = ndcX;
       pointer.ty = ndcY;
       pointer.target = options.animate ? 1 : 0;
+    },
+    setTune(target) {
+      tuneTarget = target;
+      if (!options.animate) {
+        tune = target;
+        requestStaticFrame();
+      }
     },
   };
 }

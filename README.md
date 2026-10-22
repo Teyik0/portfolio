@@ -12,7 +12,7 @@ particles that morph into a vortex, a wind chime, a peer swarm and a waveform as
 - **React 19**, **Tailwind CSS v4** via `bun-plugin-tailwind`.
 - **three.js** with custom GLSL shaders, loaded client-side after hydration.
 - **Lenis** smooth scrolling (disabled under `prefers-reduced-motion`).
-- Self-hosted **Bricolage Grotesque** and **Fira Code** (OFL, see `public/fonts/LICENSE.md`).
+- Self-hosted **Tektur** (display) and **Fira Code** (OFL, see `public/fonts/LICENSE.md`).
 
 ## Commands
 

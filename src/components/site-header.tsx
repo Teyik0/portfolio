@@ -1,6 +1,7 @@
 import { type CSSProperties, useEffect, useRef, useState } from "react";
 import { PROFILE, SECTIONS, type SectionId } from "../content";
-import { BrandMark } from "./icons";
+import { BrandMark, GitHubIcon } from "./icons";
+import { Magnetic } from "./magnetic";
 import { ScrambleText } from "./scramble-text";
 
 /** Glass pill navigation with a sliding purple-to-blue indicator on the section in view. */
@@ -77,10 +78,17 @@ export function SiteHeader() {
           </ul>
         </nav>
 
-        <a className="header-cta" href={PROFILE.github} rel="noopener noreferrer" target="_blank">
-          <ScrambleText text="GitHub" />
-          <span aria-hidden="true" className="header-cta__dot" />
-        </a>
+        <Magnetic className="header-cta" strength={0.4}>
+          <a
+            aria-label="GitHub"
+            className="header-cta__link"
+            href={PROFILE.github}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <GitHubIcon className="size-5" />
+          </a>
+        </Magnetic>
       </div>
     </header>
   );

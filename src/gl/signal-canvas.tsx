@@ -63,6 +63,13 @@ export function SignalCanvas() {
         );
       };
       const onPointerLeave = () => scene.clearPointer();
+      // Elements marked data-signal-tune (the contact stations) lock the waveform while
+      // hovered or focused. Delegated, so the components stay free of scene wiring.
+      const onTune = (event: Event) => {
+        const target = event.target instanceof Element ? event.target : null;
+        const tuned = event.type === "pointerover" || event.type === "focusin";
+        scene.setTune(tuned && target?.closest("[data-signal-tune]") ? 1 : 0);
+      };
       const resizeObserver = new ResizeObserver(() => {
         timeline = measureTimeline(sectionIds);
         scene.resize();
@@ -77,6 +84,9 @@ export function SignalCanvas() {
       onScroll();
       window.addEventListener("scroll", onScroll, { passive: true });
       window.addEventListener("pointermove", onPointerMove, { passive: true });
+      for (const type of ["pointerover", "focusin", "focusout"]) {
+        document.addEventListener(type, onTune);
+      }
       document.documentElement.addEventListener("pointerleave", onPointerLeave);
       cleanups.push(() => {
         cancelAnimationFrame(scrollRaf);
@@ -84,6 +94,9 @@ export function SignalCanvas() {
         visibility.disconnect();
         window.removeEventListener("scroll", onScroll);
         window.removeEventListener("pointermove", onPointerMove);
+        for (const type of ["pointerover", "focusin", "focusout"]) {
+          document.removeEventListener(type, onTune);
+        }
         document.documentElement.removeEventListener("pointerleave", onPointerLeave);
       });
     };

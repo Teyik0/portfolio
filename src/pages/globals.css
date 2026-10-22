@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Tektur", ui-sans-serif, system-ui, sans-serif;
   --font-mono:
     "Fira Code", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
@@ -265,8 +265,9 @@ main {
   backdrop-filter: blur(12px) saturate(140%);
 }
 
+/* Not positioned: the links' offsetLeft must be measured from the pill, padding included,
+   so the indicator keeps the same 4px inset at both ends. */
 .nav-pill__list {
-  position: relative;
   display: flex;
   gap: 2px;
   padding: 0;
@@ -316,35 +317,31 @@ main {
 }
 
 .header-cta {
-  display: inline-flex;
-  gap: 10px;
-  align-items: center;
   justify-self: end;
-  font-size: 11px;
+}
+.header-cta__link {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
   color: var(--color-ink-dim);
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  transition: color 0.3s;
-}
-.header-cta:hover {
-  color: var(--color-ink);
-}
-.header-cta__dot {
-  width: 6px;
-  height: 6px;
-  background: var(--color-signal);
   border-radius: 50%;
-  box-shadow: 0 0 10px var(--color-signal);
+  transition:
+    color 0.3s,
+    filter 0.3s;
+}
+.header-cta__link:hover {
+  color: var(--color-ink);
+  filter: drop-shadow(0 0 10px rgb(187 255 51 / 0.45));
 }
 
 @media (max-width: 639px) {
   .site-header__row {
-    grid-template-columns: auto 1fr;
-    gap: 12px;
+    grid-template-columns: auto 1fr auto;
+    gap: 8px;
     height: 64px;
   }
-  .brand__name,
-  .header-cta {
+  .brand__name {
     display: none;
   }
   .nav-pill {
@@ -416,12 +413,11 @@ main {
 .hero-name {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(3.4rem, 15.2vw, 16rem);
-  font-variation-settings: "opsz" 96;
-  font-weight: 500;
-  line-height: 0.84;
+  font-size: clamp(3rem, 13.4vw, 14.5rem);
+  font-weight: 600;
+  line-height: 0.9;
   color: var(--color-ink);
-  letter-spacing: -0.055em;
+  letter-spacing: -0.035em;
 }
 
 .hero-name__line {
@@ -431,10 +427,6 @@ main {
   overflow: clip;
   white-space: nowrap;
 }
-.hero-name__line + .hero-name__line {
-  margin-left: -0.04em;
-}
-
 .hero-name__char {
   display: inline-block;
   animation: char-rise 1.5s var(--ease-out-expo) both;
@@ -474,13 +466,10 @@ main {
 
 .hero__bio {
   margin: 0;
-  font-family: var(--font-display);
-  font-size: clamp(1.1rem, 1.5vw, 1.45rem);
-  font-variation-settings: "opsz" 24;
+  font-size: clamp(0.98rem, 1.1vw, 1.08rem);
   font-weight: 400;
-  line-height: 1.38;
-  color: rgb(236 235 230 / 0.78);
-  letter-spacing: -0.012em;
+  line-height: 1.7;
+  color: rgb(236 235 230 / 0.8);
   text-wrap: pretty;
   text-shadow: 0 0 24px #000;
 }
@@ -659,11 +648,10 @@ main {
   align-items: flex-end;
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(5rem, 17vw, 15rem);
-  font-variation-settings: "opsz" 96;
-  font-weight: 500;
-  line-height: 0.82;
-  letter-spacing: -0.06em;
+  font-size: clamp(4.4rem, 15vw, 13.5rem);
+  font-weight: 600;
+  line-height: 0.86;
+  letter-spacing: -0.04em;
 }
 
 @media (max-width: 1023px) {
@@ -671,7 +659,7 @@ main {
   .case-title {
     min-height: 34svh;
   }
-  .contact__grid {
+  .contact__head {
     padding-top: 22svh;
   }
 }
@@ -693,12 +681,9 @@ main {
 .case-pitch {
   max-width: 34rem;
   margin: 28px 0 0;
-  font-family: var(--font-display);
-  font-size: clamp(1.15rem, 1.7vw, 1.6rem);
-  font-variation-settings: "opsz" 24;
-  line-height: 1.32;
-  color: var(--color-ink-dim);
-  letter-spacing: -0.015em;
+  font-size: clamp(1rem, 1.2vw, 1.15rem);
+  line-height: 1.7;
+  color: rgb(236 235 230 / 0.78);
   text-wrap: pretty;
 }
 
@@ -741,12 +726,11 @@ main {
 .point__title {
   margin: 0;
   font-family: var(--font-display);
-  font-size: 1.3rem;
-  font-variation-settings: "opsz" 24;
+  font-size: 1.25rem;
   font-weight: 500;
   line-height: 1.2;
   color: var(--color-ink);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 .point__body {
   margin: 10px 0 0;
@@ -1082,22 +1066,22 @@ main {
   padding-top: clamp(96px, 16vh, 200px);
 }
 
-.contact__grid {
+.contact__head {
   display: grid;
-  gap: 40px;
+  gap: 32px;
   margin-top: clamp(36px, 6vh, 72px);
 }
 
 @media (min-width: 1024px) {
-  .contact__grid {
+  .contact__head {
     grid-template-columns: repeat(12, minmax(0, 1fr));
     column-gap: 24px;
     align-items: end;
   }
   .contact__title {
-    grid-column: 1 / span 8;
+    grid-column: 1 / span 7;
   }
-  .contact__aside {
+  .operator {
     grid-column: 9 / span 4;
   }
 }
@@ -1105,28 +1089,19 @@ main {
 .contact__title {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(3.6rem, 11.5vw, 12rem);
-  font-variation-settings: "opsz" 96;
-  font-weight: 500;
+  font-size: clamp(4.4rem, 15vw, 13.5rem);
+  font-weight: 600;
   line-height: 0.86;
-  letter-spacing: -0.055em;
-  text-wrap: balance;
+  letter-spacing: -0.04em;
 }
 
-.contact__aside {
+.operator {
   display: grid;
+  grid-template-columns: auto 1fr;
   gap: 18px;
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  font-variation-settings: "opsz" 24;
-  line-height: 1.4;
-  color: var(--color-ink-dim);
+  align-items: center;
 }
-.contact__aside p {
-  margin: 0;
-  text-wrap: pretty;
-}
-.contact__avatar {
+.operator__avatar {
   width: 64px;
   height: 64px;
   object-fit: cover;
@@ -1136,82 +1111,204 @@ main {
     0 0 0 1px rgb(62 240 255 / 0.4),
     0 0 30px rgb(62 240 255 / 0.25);
 }
-
-.channels {
-  padding: 0;
-  margin: clamp(48px, 8vh, 96px) 0 0;
-  list-style: none;
-  border-top: 1px solid var(--color-line);
+.operator__note {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--color-ink-dim);
+  text-wrap: pretty;
 }
 
-.channel {
+/* The tuner: a readout, a dial with a needle, and one station per channel. */
+.tuner {
+  margin-top: clamp(48px, 9vh, 104px);
+}
+
+.tuner__readout {
+  display: grid;
+  height: 18px;
+  font-size: 11px;
+  color: var(--color-ink-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+.tuner__state {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.tuner__state--idle {
+  opacity: 1;
+  animation: blink 1.6s steps(2) infinite;
+}
+.tuner__state--ch1,
+.tuner__state--ch2 {
+  color: var(--color-signal);
+}
+
+.tuner__dial {
+  position: relative;
+  height: 34px;
+  margin-top: 14px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgb(255 255 255 / 0.32) 0 1px,
+      transparent 1px 64px
+    )
+    bottom / 100% 18px no-repeat,
+    repeating-linear-gradient(
+      90deg,
+      rgb(255 255 255 / 0.16) 0 1px,
+      transparent 1px 8px
+    )
+    bottom / 100% 9px no-repeat;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.tuner__needle {
+  position: absolute;
+  top: 0;
+  bottom: -1px;
+  left: 50%;
+  width: 2px;
+  background: var(--color-signal);
+  box-shadow: 0 0 14px var(--color-signal);
+  transition: left 1s var(--ease-out-expo);
+  animation: search 2.4s var(--ease-in-out-quart) infinite alternate;
+}
+
+.tuner__stations {
+  display: grid;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+@media (min-width: 768px) {
+  .tuner__stations {
+    grid-template-columns: 1fr 1fr;
+  }
+  .tuner__stations li + li .station {
+    border-left: 1px solid var(--color-line);
+  }
+}
+
+.station {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr auto auto;
-  gap: 24px;
+  grid-template-areas:
+    "band arrow"
+    "label arrow"
+    "handle arrow";
+  grid-template-columns: 1fr auto;
+  row-gap: 8px;
   align-items: center;
-  padding-block: clamp(18px, 3vh, 30px);
+  padding: clamp(22px, 4vh, 40px) clamp(4px, 2vw, 32px);
   overflow: hidden;
   border-bottom: 1px solid var(--color-line);
 }
-.channel::before {
+.station::before {
   position: absolute;
   inset: 0;
   content: "";
   background: linear-gradient(
-    90deg,
-    rgb(187 255 51 / 0.08),
-    rgb(62 240 255 / 0.06) 60%,
+    180deg,
+    rgb(187 255 51 / 0.09),
+    rgb(62 240 255 / 0.03) 70%,
     transparent
   );
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.9s var(--ease-out-expo);
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-out-quint);
 }
-.channel:hover::before,
-.channel:focus-visible::before {
-  transform: scaleX(1);
+.station:hover::before,
+.station:focus-visible::before {
+  opacity: 1;
 }
-.channel__label {
+.station__band {
   position: relative;
+  grid-area: band;
+  font-size: 11px;
+  color: var(--color-amber);
+  letter-spacing: 0.16em;
+}
+.station__label {
+  position: relative;
+  grid-area: label;
   font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 4.4rem);
-  font-variation-settings: "opsz" 72;
-  font-weight: 500;
+  font-size: clamp(2.4rem, 6vw, 5.4rem);
+  font-weight: 600;
   line-height: 1;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.035em;
   transition: transform 0.8s var(--ease-out-expo);
 }
-.channel:hover .channel__label {
-  transform: translateX(16px);
+.station:hover .station__label,
+.station:focus-visible .station__label {
+  transform: translateX(10px);
 }
-.channel__handle {
+.station__handle {
   position: relative;
+  grid-area: handle;
   font-size: 12px;
   color: var(--color-ink-faint);
   letter-spacing: 0.06em;
 }
-.channel__arrow {
+.station__arrow {
   position: relative;
   display: grid;
+  grid-area: arrow;
   place-items: center;
   width: 52px;
   height: 52px;
   color: var(--color-signal);
   border: 1px solid #333;
   border-radius: 50%;
+  transition: border-color 0.4s;
+}
+.station:hover .station__arrow,
+.station:focus-visible .station__arrow {
+  border-color: rgb(187 255 51 / 0.5);
 }
 
-@media (max-width: 639px) {
-  .channel {
-    grid-template-columns: 1fr auto;
+/* Lock: the needle glides onto the hovered or focused station and the readout confirms it. */
+.tuner:has(.station:is(:hover, :focus-visible)) .tuner__needle {
+  animation: none;
+}
+.tuner:has(.station:is(:hover, :focus-visible)) .tuner__state--idle {
+  opacity: 0;
+  animation: none;
+}
+.tuner:has(li:first-child .station:is(:hover, :focus-visible)) .tuner__needle {
+  left: 25%;
+}
+.tuner:has(li:first-child .station:is(:hover, :focus-visible))
+  .tuner__state--ch1,
+.tuner:has(li:last-child .station:is(:hover, :focus-visible))
+  .tuner__state--ch2 {
+  opacity: 1;
+}
+.tuner:has(li:last-child .station:is(:hover, :focus-visible)) .tuner__needle {
+  left: 75%;
+}
+
+@keyframes search {
+  from {
+    transform: translateX(-18px);
   }
-  .channel__handle {
-    display: none;
+  to {
+    transform: translateX(18px);
   }
-  .channel__arrow {
-    width: 44px;
-    height: 44px;
+}
+@keyframes blink {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@media (max-width: 767px) {
+  /* Stations stack on phones, so the needle keeps scanning instead of pointing at a column. */
+  .tuner .tuner__needle {
+    left: 50%;
   }
 }
 
@@ -1269,8 +1366,7 @@ main {
 /* Scroll-linked drift on the big titles, where the browser supports scroll timelines. */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .case-title__word,
-    .contact__title {
+    .case-title__word {
       animation: drift linear both;
       animation-timeline: view();
       animation-range: entry 0% exit 100%;
@@ -1303,7 +1399,9 @@ main {
   .hero-name__char,
   .status__dot,
   .scroll-cue svg,
-  .signal-grain {
+  .signal-grain,
+  .tuner__needle,
+  .tuner__state--idle {
     animation: none;
   }
   .js .reveal {
@@ -1312,8 +1410,9 @@ main {
     transition: none;
   }
   .magnetic,
-  .channel::before,
-  .channel__label {
+  .station::before,
+  .station__label,
+  .tuner__needle {
     transition: none;
   }
 }

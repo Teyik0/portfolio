@@ -17,7 +17,7 @@ interface HeadLink {
 const TRAILING_SLASH = /\/$/;
 
 const FONT_PRELOADS: HeadLink[] = [
-  "/public/fonts/bricolage-grotesque-latin.woff2",
+  "/public/fonts/tektur-latin.woff2",
   "/public/fonts/fira-code-latin.woff2",
 ].map((href) => ({
   as: "font",
@@ -29,7 +29,7 @@ const FONT_PRELOADS: HeadLink[] = [
 
 const TITLE = `${PROFILE.name} · ${PROFILE.role}`;
 
-const FONT_FACES = `@font-face{font-family:"Bricolage Grotesque";font-style:normal;font-display:swap;font-weight:200 800;font-stretch:75% 100%;src:url("/public/fonts/bricolage-grotesque-latin.woff2") format("woff2")}
+const FONT_FACES = `@font-face{font-family:"Tektur";font-style:normal;font-display:swap;font-weight:400 900;font-stretch:75% 100%;src:url("/public/fonts/tektur-latin.woff2") format("woff2")}
 @font-face{font-family:"Fira Code";font-style:normal;font-display:swap;font-weight:300 700;src:url("/public/fonts/fira-code-latin.woff2") format("woff2")}`;
 
 export const route = defineRoute("/")

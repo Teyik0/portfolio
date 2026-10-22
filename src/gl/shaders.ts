@@ -85,6 +85,8 @@ export const PARTICLE_VERTEX = /* glsl */ `
 uniform float uTime;
 uniform float uMorph;
 uniform float uIntro;
+// 0..1: a contact channel is hovered or focused; the waveform locks from noise into a clean sine.
+uniform float uTune;
 uniform float uPixelRatio;
 uniform float uSize;
 uniform float uOpacity;
@@ -207,13 +209,15 @@ vec4 shapeSwarm(vec4 a, vec4 b, float t) {
 // 3 · Contact: a single waveform. The signal, quiet and readable.
 vec4 shapeSignal(vec4 a, vec4 b, float t) {
   float x = (a.x - 0.5) * 13.0;
-  float env = exp(-x * x * 0.045);
-  float y = sin(x * 1.8 - t * 1.3) * 0.6 * env + sin(x * 4.6 + t * 2.1) * 0.13 * env;
-  y += gauss(b.x, b.y) * (0.012 + 0.02 * env);
-  float stray = step(0.9, a.y);
+  float env = exp(-x * x * mix(0.045, 0.02, uTune));
+  float noise = 1.0 - uTune;
+  float y = sin(x * mix(1.8, 1.25, uTune) - t * 1.3) * mix(0.6, 0.78, uTune) * env;
+  y += sin(x * 4.6 + t * 2.1) * 0.13 * env * noise;
+  y += gauss(b.x, b.y) * (0.006 + 0.026 * env * noise);
+  float stray = step(0.9, a.y) * noise;
   y += stray * gauss(b.z, b.w) * 0.4 * env;
-  gHue = clamp(0.15 + env * 0.85, 0.0, 1.0);
-  return vec4(x, y, gauss(b.w, b.x) * 0.05, (0.45 + env) * (1.0 - stray * 0.45));
+  gHue = clamp(0.15 + env * 0.85 + uTune * 0.3, 0.0, 1.0);
+  return vec4(x, y, gauss(b.w, b.x) * 0.05 * noise, (0.45 + env) * (1.0 - stray * 0.45) * (1.0 + uTune * 0.5));
 }
 
 vec4 shapeAt(float index, vec4 a, vec4 b, float t) {
@@ -255,7 +259,7 @@ void main() {
   // Curl-noise flow: each particle drifts along the field over its life, then respawns.
   float life = fract(aRandB.z * 13.0 + t * (0.03 + aRandA.w * 0.05));
   float layoutScale = mix(L0.w, L1.w, k);
-  float amp = mix((0.1 + transit * 1.2) * layoutScale, 1.2, dust);
+  float amp = mix((0.1 + transit * 1.2) * layoutScale * (1.0 - uTune * 0.8), 1.2, dust);
   vec3 c1 = curl(p * 0.3 + vec3(0.0, 0.0, t * 0.035));
   vec3 q = p + c1 * amp * life * 0.5;
   vec3 c2 = curl(q * 0.3 + vec3(0.0, 0.0, t * 0.035));
