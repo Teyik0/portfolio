@@ -40,7 +40,7 @@ jobs:
         run: bunx ultracite check
 
       - name: Type Check
-        run: bun check
+        run: bun run tscheck
 
       - name: Build
         run: bun run build
