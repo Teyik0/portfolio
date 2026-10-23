@@ -31,7 +31,7 @@ video player.
 |---|---|
 | `bun install` | Install dependencies |
 | `bun run dev` | Dev server with HMR at http://localhost:3000 |
-| `bun run tscheck` | Type-check |
+| `bun check` | Type-check |
 | `bun run fix` | Lint and format with Ultracite (Biome) |
 | `bun run build` | Production Bun server bundle in `.furin/build/bun` (`bun run start` runs it) |
 | `bun run build:static` | Static export for GitHub Pages in `dist/`, under `/portfolio` |
