@@ -1036,45 +1036,6 @@ main {
   margin-left: 4px;
 }
 
-.case__media--stacked {
-  position: relative;
-}
-.window--inset {
-  display: none;
-}
-@media (min-width: 768px) {
-  .case__media--stacked {
-    padding-bottom: 14%;
-  }
-  .case__media--stacked > .window--showcase {
-    margin-right: 8%;
-  }
-  .window--inset {
-    position: absolute;
-    right: 3%;
-    bottom: 0;
-    display: block;
-    width: 40%;
-    box-shadow:
-      0 0 0 1px rgb(0 0 0 / 0.7),
-      0 30px 80px -20px rgb(0 0 0 / 0.9);
-  }
-  .window--inset img {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-  }
-}
-.window__bar--compact {
-  height: 28px;
-  padding-inline: 10px;
-  font-size: 10px;
-}
-.window__bar--compact .window__dots i {
-  width: 7px;
-  height: 7px;
-}
-
 .command {
   display: flex;
   gap: 12px;

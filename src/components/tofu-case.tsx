@@ -43,30 +43,12 @@ export function TofuCase() {
             </a>
           </div>
 
-          <div className="case__media case__media--stacked reveal">
+          <div className="case__media reveal">
             <ShowcaseVideo
               label="Tofu showcase: search, plugins, AniList tracking and live transfer stats in motion"
               path={`${ASSET_BASE}/videos/tofu-showcase`}
               title="tofu — showcase"
             />
-            <figure className="window window--inset">
-              <figcaption className="window__bar window__bar--compact">
-                <span aria-hidden="true" className="window__dots">
-                  <i />
-                  <i />
-                  <i />
-                </span>
-                <span className="window__title">AniList plugin</span>
-                <span />
-              </figcaption>
-              <img
-                alt="Tofu's AniList view: a grid of tracked anime with search, genre, year and season filters."
-                height={720}
-                loading="lazy"
-                src={`${ASSET_BASE}/media/tofu-demo.webp`}
-                width={1280}
-              />
-            </figure>
           </div>
         </div>
 
