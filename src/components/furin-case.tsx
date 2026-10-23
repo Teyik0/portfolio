@@ -36,7 +36,7 @@ export function FurinCase() {
 
           <div className="case__media reveal">
             <ShowcaseVideo
-              label="Furin showcase: file-based routes, rendering modes and type inference in motion"
+              label="Furin showcase: scaffolding, file-based routes with hot reload, end-to-end types, live sync across tabs and build targets in motion"
               path={`${ASSET_BASE}/videos/furin-showcase`}
               title="furin — showcase"
             />
